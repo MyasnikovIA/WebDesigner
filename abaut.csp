@@ -1,0 +1,9 @@
+<html>
+<head>
+    <title> Html Server Page </title>
+    <script type="text/javascript" src="lib/layout/js/jquery.js"></script>
+    <script src="lib/component.js"></script>
+</head>
+<body>
+</body>
+</html>

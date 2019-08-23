@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cache` WebDesigner <server> w $SYSTEM.Version.GetProduct() </server></title>
+    <meta charset="utf-8">
+</head>
+    <link rel="stylesheet" type="text/css" href="lib/layout/css/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="lib/main.css">
+    <script type="text/javascript" src="lib/layout/js/jquery.js"></script>
+    <script type="text/javascript" src="lib/layout/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="lib/layout/js/jquery.layout.js"></script>
+    <script type="text/javascript" src="lib/layout/js/jquery.layout.resizeTabLayout.js"></script>
+    <script type="text/javascript" src="lib/layout/js/jquery.layout.resizePaneAccordions.js"></script>
+    <script type="text/javascript" src="lib/layout/js/themeswitchertool.js"></script>
+    <script type="text/javascript" src="lib/layout/js/debug.js"></script>
+    <link rel="stylesheet" href="lib/jstree/themes/default/style.min.css"/>
+    <script type="text/javascript" src="lib/jstree/jstree.min.js"></script>
+    <!--script type="text/javascript"> var componentArray = []; </script-->
+    <!--script src="lib/componentjson.js?time=#($h)#"></script-->
+    <!--script src="lib/component.js"></script-->
+    <!--script id="ComponentScript" src="%25ZWebDesigner.Component.index.cls?time=#($h)#&getJsonTree=1"></script-->
+    
+    
+    <script type="text/javascript">
+
+
+        /**
+         * ------- Парсим URL параметры --------------\\
+         */
+        var urlParams;
+        var match,
+            pl = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) {
+                return decodeURIComponent(s.replace(pl, " "));
+            },
+            query = window.location.search.substring(1);
+        urlParams = {};
+        while (match = search.exec(query)) {
+            urlParams[decode(match[1])] = decode(match[2]);
+        }
+        // alert(urlParams["debug"]);
+        // alert("empty" in urlParams);
+
+
+        var ServerFormPath = null;
+        if ("form" in urlParams) {
+            ServerFormPath = urlParams["form"]; // Глобальная переменная хронит путь к файлу формы
+        }
+        var UrlServerController = '/csp/sys/%25ZWebDesigner.Controll.cls'; // путь к контроллеру обработки файлов формы (Сохранение форм на сервере)
+        var ContentEditorDocume = null; // Глобальная переменная хронит закладку редактируемого элемента
+        var NewObjectElement = ''; /// Глобальная переменная создаваемый объект
+        var selectObject = null;        /// Глобальная переменная выбранный объект
+        var CountObject = 0;       /// Глобальная переменная Количество объектов
+        var PropertyTab;         /// Глобальная переменная выбора закладки свойств
+
+
+        /*
+         *	Utility methos used for UI Theme Selector
+         */
+        function toggleCustomTheme() {
+            $('body').toggleClass('custom');
+            resizePageLayout();
+        };
+
+        function resizePageLayout() {
+            var pageLayout = $("body").data("layout");
+            if (pageLayout) pageLayout.resizeAll();
+        };
+
+
+        /*
+         *	Define options for all the layouts
+         */
+
+        var pageLayoutOptions = {
+            name: 'pageLayout' // only for debugging
+            , resizeWithWindowDelay: 250		// delay calling resizeAll when window is *still* resizing
+            //,	resizeWithWindowMaxDelay: 2000	// force resize every XX ms while window is being resized
+            , resizable: false
+            , slidable: false
+            , closable: false
+            , north__paneSelector: "#outer-north"
+            , center__paneSelector: "#outer-center"
+            , south__paneSelector: "#outer-south"
+            , south__spacing_open: 0
+            , north__spacing_open: 0
+
+            //	add a child-layout inside the center-pane
+            , center__children: {
+                name: 'tabsContainerLayout'
+                , resizable: false
+                , slidable: false
+                , closable: false
+                , north__paneSelector: "#tabbuttons"
+                , center__paneSelector: "#tabpanels"
+                , spacing_open: 0
+                , center__onresize: $.layout.callbacks.resizeTabLayout // resize ALL visible layouts nested inside
+            }
+
+        };
+
+
+        //	define sidebar options here because are used for BOTH east & west tab-panes (see below)
+        var sidebarLayoutOptions = {
+            name: 'sidebarLayout' // only for debugging
+            , showErrorMessages: false	// some panes do not have an inner layout
+            , resizeWhileDragging: true
+            , north__size: "30%"
+            , south__size: "30%"
+            , minSize: 100
+            , center__minHeight: 100
+            , spacing_open: 10
+            , spacing_closed: 10
+            , contentSelector: ".ui-widget-content"
+            , togglerContent_open: '<div class="ui-icon"></div>'
+            , togglerContent_closed: '<div class="ui-icon"></div>'
+        };
+
+        //	options used for the tab-panel-layout on all 3 tabs
+        var tabLayoutOptions = {
+            //	name:					'tabPanelLayout' // only for debugging
+            resizeWithWindow: false	// required because layout is 'nested' inside tabpanels container
+            //,	resizeWhileDragging:	true	// slow in IE because of the nested layouts
+            , resizerDragOpacity: 0.5
+            , north__resizable: false
+            , south__resizable: false
+            , north__closable: false
+            , south__closable: false
+            , west__minSize: 300
+            , east__minSize: 250
+            , center__minWidth: 400
+            , spacing_open: 10
+            , spacing_closed: 10
+            , contentSelector: ".ui-widget-content"
+            , togglerContent_open: '<div class="ui-icon"></div>'
+            , togglerContent_closed: '<div class="ui-icon"></div>'
+            , triggerEventsOnLoad: true // so center__onresize is triggered when layout inits
+            , center__onresize: $.layout.callbacks.resizePaneAccordions // resize ALL Accordions nested inside
+            , west__onresize: $.layout.callbacks.resizePaneAccordions // ditto for west-pane
+            , west__children: sidebarLayoutOptions
+            , east__children: sidebarLayoutOptions
+        };
+
+
+        // список свойст  которые будут закрыты для редактирования  //  |innerHTML|designMode|click|
+        var elementSheetSkip = '|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tabIndex|contentEditable|isContentEditable|offsetTop|offsetLeft|offsetWidth|offsetHeight|outerText|namespaceURI|localName|tagName|';
+      
+
+        //  Идентификатор элемента на дереве объектов
+        var ReadHtmlElementId = 0;
+        /// создание JSON дерева объектов на визуальной форме
+        var ReadHtmlElement = function (elems, arr, isInit) {
+            if (('' + elems) == '[object HTMLBRElement]') {
+                return;
+            } // пропускаем <br/>
+            
+            if ((''+elems.tagName) === 'undefined') {
+                return;
+            } // пропускаем  неизвестные тэги
+            
+            /// Если нет событий на элементе, тогда инициируем их и получаем объект
+            var HtmlObjectNode = InitAttributesObject(elems);
+            ///---------------------------------------------------
+            var sub = {};
+            // sub["id"]=elems.dataset['DesignerThreeId'];
+            if (elems.tagName!='HTML'){
+                ReadHtmlElementId++;
+                sub["id"] = "ThreeIdElement_" + ReadHtmlElementId;
+            }
+            sub["text"] = '' + elems['tagName'];
+            sub["ObjectElement"] = elems;
+            if ((HtmlObjectNode != undefined) && (HtmlObjectNode["icon"])) {
+                sub["icon"] = HtmlObjectNode["icon"];
+            } else {
+                sub["icon"] = "jstree-file";
+            }
+            sub["state"] = {};
+            sub["state"]["opened"] = false;
+            if ((isInit) && (('' + elems) == '[object HTMLBodyElement]')) {
+                sub["state"]["selected"] = true;
+                sub["state"]["opened"] = true;
+            }
+            sub["children"] = [];
+            for (var i = 0; i < elems.childNodes.length; i++) {
+                var SubElemt = elems.childNodes[i]
+                ReadHtmlElement(SubElemt, sub["children"], isInit);
+            }
+            if (('' + elems) != '[object Text]') {
+                elems.onclick = function () {
+                    if (NewObjectElement != '') {
+                        HtmlObjectNode = $(NewObjectElement).data("ObjectElement");
+                        var AddSpase = false;
+                        if ((HtmlObjectNode['VisualElement'] != undefined) && (HtmlObjectNode['VisualElement']) == 'true') {
+                            AddSpase = true;
+                        }
+                        var range = ContentEditorDocume.document.getSelection().getRangeAt(0);
+                        var frag = ContentEditorDocume.document.createDocumentFragment();
+                        if (AddSpase == true) {
+                            var spanOpen = ContentEditorDocume.document.createTextNode("\u00a0")
+                            frag.appendChild(spanOpen);
+                        }
+                        frag.appendChild(NewObjectElement);
+                        if (AddSpase == true) {
+                            var spanCls = ContentEditorDocume.document.createTextNode("\u00a0")
+                            frag.appendChild(spanCls);
+                        }
+                        range.insertNode(frag);
+                        reloadThree(false);
+                        NewObjectElement = '';
+                        ReadHtmlElementId = 0;
+                    }
+
+                    var selectObjectTmp = ContentEditorDocume.document.elementFromPoint(event.clientX, event.clientY);
+                    if ((selectObject != null) && (selectObject != undefined) && (selectObject["style"] != undefined) && (selectObject["style"]['border'] != undefined)) {
+                         selectObject["style"]['border'] = "";
+                         selectObject["style"]['border'] = selectObjectTmp.StylesHtml.border;
+                    }
+                    selectObject = selectObjectTmp;
+                    var idFoundNode = selectObject.dataset['DesignerThreeId'];
+                    
+                    
+                    // Если элемента нет в дереве, тогда перечитать дерево
+	                if ($('#htmlContentTree').jstree(true).get_node(idFoundNode)) { } else {
+	                     reloadThree(false);
+	                 }
+                     $('#htmlContentTree').jstree("deselect_all", true);
+                     jQuery("#htmlContentTree").jstree("select_node", idFoundNode);
+                     ReadProperty(selectObject);
+                }
+                elems.onchange = function () {
+                    reloadThree(false);
+                }
+                try{
+	                // console.log("elems ",elems.outerHTML)
+	                // if((sub["id"]!=undefined)&&( elems.dataset['DesignerThreeId']!=undefined )){
+	                   elems.dataset['DesignerThreeId'] = sub["id"];
+	                // }
+                } catch (e) { }	                
+                arr.push(sub);
+            }
+        }
+
+
+        ///  Функция построения дерева объектов на визуальной форме
+        ///  описание событий
+        var reloadThree = function (isInit) {
+            var arr = [];
+            // var ContentEditorDocume = document.getElementById('ContentEditorDocume');
+            ReadHtmlElement(ContentEditor, arr, isInit);
+            if (isInit) {
+                $('#htmlContentTree').jstree({'core': {"multiple": false, 'data': arr}})
+                    .on("changed.jstree", function (e, data) {
+                        if (data.selected.length) {
+                            var element = data.instance.get_node(data.selected[0])
+                            var selectObjectTmp = element.original.ObjectElement;
+                            if ((selectObject != null) && (selectObject != undefined) && (selectObject["style"] != undefined) && (selectObject["style"]['border'] != undefined)) {
+                                selectObject["style"]['border'] = "";
+                                selectObject["style"]['border'] = selectObjectTmp.StylesHtml.border;
+                            }
+                            selectObject = selectObjectTmp;
+                            if (selectObject.tagName != 'BODY') {
+                                selectObject["style"]['border'] = 'dotted'
+                            }
+                            ReadProperty(selectObject);
+                        }
+                    }).on("dblclick", function () {
+                    alert(selectObject);
+                }).on("click", function () {
+                    //Добавить элемен  прям в дерево
+                    if (NewObjectElement != '') {
+                        
+                        var spanOpen = ContentEditorDocume.document.createTextNode("\u00a0")
+                        selectObject.appendChild(spanOpen);
+                        selectObject.appendChild( NewObjectElement);
+                        var spanCls = ContentEditorDocume.document.createTextNode("\u00a0")
+                        selectObject.appendChild(spanCls);
+                        selectObject = NewObjectElement;
+                        reloadThree(false);
+                        NewObjectElement = '';
+                        ReadHtmlElementId = 0;
+                    }
+                }).on("keyup", function (event) {
+                    if ((event.keyCode == 46) && (selectObject.tagName != 'BODY') && (selectObject.tagName != 'HEAD') && (selectObject.tagName != 'HTML')) {
+                        selectObject.remove();
+                        $("#EditFiltProperty").html('');
+                        // data=$('#htmlContentTree').jstree('get_selected');
+                        // console.log('data',data)
+                        // console.log(data[0])
+                        // $('#htmlContentTree').delete_node(data);
+                        // $.tree.focused().remove();
+                        // $('#htmlContentTree').jstree(true).refresh();
+                        reloadThree(false);
+                    }
+                    return false;
+                });
+            } else {
+                $('#htmlContentTree').jstree(true).settings.core.data = arr;
+                $('#htmlContentTree').jstree(true).refresh();
+            }
+        }
+
+        /// Очистка системных тэгов 
+        var ClearAttributesObject = function (ObjectElement, HtmlObjectNode,classelement) {
+	        if (classelement==undefined){classelement=ObjectElement.tagName}
+            if (HtmlObjectNode == undefined) {
+                HtmlObjectNode = $(ObjectElement).data("ObjectElement");
+            }
+            /*
+            //if (HtmlObjectNode['VisualElement']=="false"){ 
+            //    ObjectElement.removeAttribute("hidden");
+            //}
+            for (var key in ObjectElement) {
+                var attr=ObjectElement.AttributesHtml[key] ; //= {"type": typeVar, "value": val, "isEdit": false};
+                if (attr["isEdit"]!=undefined){
+	                if (attr["isEdit"]==false){
+		                // try { var val = ObjectElement[key]; } catch (e) { continue; }
+		                // if (val==attr["value"]){}
+		                if (attr["value"]==""){
+			               ObjectElement.removeAttribute(key);
+			               continue;
+		                }
+	                }
+                }
+            }
+            */
+            ObjectElement.removeAttribute('contenteditable');
+            ObjectElement.removeAttribute('data--designer-three-id');
+            ObjectElement.classList.remove("EditSelectElement");
+            ObjectElement.classList.remove("ContainerHtmlWebDesigner");
+            if (ObjectElement.classList.length == 0) {
+                ObjectElement.removeAttribute('class');
+            };            
+        }
+
+
+        /// Функция инициализации свойств у HTML объекта
+        var InitAttributesObject = function (ObjectElement, HtmlObjectNode,classelement) {
+	        if (classelement==undefined){classelement=ObjectElement.tagName}
+            //ObjectElement=document.getElementById('ContentEditorDocume');
+            if (HtmlObjectNode == undefined) {
+                HtmlObjectNode = $(ObjectElement).data("ObjectElement");
+            }
+            if (!HtmlObjectNode) {
+                HtmlObjectNode = {};
+            }
+            if (HtmlObjectNode['VisualElement'] == undefined) {
+                HtmlObjectNode['VisualElement'] = true;
+            }
+            if (HtmlObjectNode['HtmlElement'] == undefined) {
+                HtmlObjectNode['HtmlElement'] = true;
+            }
+             
+            if (HtmlObjectNode['icon'] == undefined) {
+                HtmlObjectNode['icon'] = "jstree-file";
+            }
+            if (HtmlObjectNode['classelement'] != undefined) {
+	            classelement=HtmlObjectNode['classelement'];
+            } 
+            
+            var PropElementsObject={};
+            if (classelement!=""){
+                var xhr = new XMLHttpRequest();
+	            xhr.open('GET',UrlServerController+"?GetPropertyHtmlElement=1&namespace="+urlParams["namespace"]+"&class="+urlParams["class"]+"&classelement="+classelement, false);
+	            // xhr.setRequestHeader('X-ServerForm-Path', ServerFormPath)
+	            xhr.send();
+	            if (xhr.status != 200) {
+	                alert(xhr.status + ': ' + xhr.statusText);
+	            } else {
+		            try {
+			           PropElementsObject=JSON.parse(xhr.responseText);
+                    } catch (e) {
+		               console.log("Error InitAttributesObject:",xhr.responseText);
+                    }
+	            }  
+            }
+            if (PropElementsObject['ContentText']==undefined){
+	            PropElementsObject['ContentText']="html";
+            };
+            ObjectElement.setAttribute('ContentText', PropElementsObject['ContentText']);
+            var AttributeSkip=""
+            if (PropElementsObject["ObjectElement"]!=undefined){
+	            if (PropElementsObject["ObjectElement"]['AttributesSkip']!=undefined){
+		            AttributeSkip=PropElementsObject["ObjectElement"]['AttributesSkip'].toUpperCase();
+		            HtmlObjectNode['AttributesSkip']=PropElementsObject["ObjectElement"]['AttributesSkip']; 
+	            }
+            }
+            
+            if (ObjectElement.AttributesHtml == undefined) {
+                ObjectElement.AttributesHtml = {};
+	                for (var key in ObjectElement) {
+	                    if ((AttributeSkip.length > -0) && (AttributeSkip.indexOf("|" + key.toUpperCase() + "|") != -1)) { continue; }
+	                    try { var val = ObjectElement[key]; } catch (e) { continue; }
+	                    if (val == undefined) {                        continue; }
+	                    if ((val + '').indexOf('[object ') != -1) {       continue; }
+	                    if ((key + '').indexOf('jQuery') != -1) {         continue; }
+	                    if (((key + '').substring(0, 2)).indexOf('on') != -1) { continue; }
+	                    if ((ObjectElement[key] + ' ').indexOf('{ [native code] }') != -1) {  continue;  }
+	                    if (key==key.toUpperCase()){ continue;  }
+	                    //if (key=="AttributesHtml"){ continue;  }
+	                    if (key=="ClassElement"){   continue;  }
+	                    var typeVar = (typeof ObjectElement[key]) + '';
+	                    ObjectElement.AttributesHtml[key] = {"type": typeVar, "value": val, "isEdit": false};
+	                }
+	                ObjectElement.AttributesHtml["id"] = {"type": "string", "value": "", "isEdit": false};
+	                if (PropElementsObject["ObjectElement"]!=undefined) {
+	                  for(var subAtrEl in PropElementsObject["ObjectElement"]["AttributesHtml"]){
+		                  if (typeof PropElementsObject["ObjectElement"]["AttributesHtml"][subAtrEl] ==='object'){ 
+		                      var val=PropElementsObject["ObjectElement"]["AttributesHtml"][subAtrEl]["value"];
+						      var typeVar=PropElementsObject["ObjectElement"]["AttributesHtml"][subAtrEl]["type"];
+						      ObjectElement.AttributesHtml[subAtrEl] = {"type": typeVar, "value": val, "isEdit": false};
+						      ObjectElement.setAttribute(subAtrEl, val);
+		                  }else{
+			                   var val=PropElementsObject["ObjectElement"]["AttributesHtml"][subAtrEl];
+						      ObjectElement.AttributesHtml[subAtrEl] = {"type": "string", "value": val, "isEdit": false};
+						      ObjectElement.setAttribute(subAtrEl, val);
+		                  }
+	                  }
+		           }
+	           if (ObjectElement.EventsHtml == undefined) {
+	               ObjectElement.EventsHtml = {};
+                   if (HtmlObjectNode['HtmlElement']=="true"){ 
+		               
+		                // Список событий
+		                for (var key in ObjectElement) {
+		                    if (((key + '').substring(0, 2)).indexOf('on') == -1) {
+		                        continue;
+		                    }
+		                    if ((ObjectElement[key] + ' ').indexOf('{ [native code] }') != -1) {
+		                        continue;
+		                    }
+		                    if ((AttributeSkip.length > -0) && (AttributeSkip.indexOf("|" + key.toUpperCase() + "|") != -1)) {
+		                        continue;
+		                    }
+		                    ObjectElement.EventsHtml[key] = {"type": "javascript", "value": "", "isEdit": false};
+		                }
+		                
+		                if (PropElementsObject["ObjectElement"]!=undefined) {
+		                  for(var subAtrEl in PropElementsObject["ObjectElement"]["EventsHtml"]){
+			                  if (typeof PropElementsObject["ObjectElement"]["EventsHtml"][subAtrEl] ==='object'){ 
+			                      var val=PropElementsObject["ObjectElement"]["EventsHtml"][subAtrEl]["value"];
+							      var typeVar=PropElementsObject["ObjectElement"]["EventsHtml"][subAtrEl]["type"];
+							      ObjectElement.EventsHtml[subAtrEl] = {"type": typeVar, "value": val, "isEdit": false};
+
+			                  }else{
+				                   var val=PropElementsObject["ObjectElement"]["EventsHtml"][subAtrEl];
+							      ObjectElement.EventsHtml[subAtrEl] = {"type": "javascript", "value": val, "isEdit": false};
+			                  }
+		                  }
+	                  }
+                   }
+              }
+            }
+            if (ObjectElement.StylesHtml == undefined) {
+                ObjectElement.StylesHtml = {};
+                if (HtmlObjectNode['VisualElement']=="true"){ 
+	                for (var key in ObjectElement['style']) {
+	                    try {
+	                        var val = ObjectElement['style'][key];
+	                    } catch (e) {
+	                        continue;
+	                    }
+	                    var typeVar = (typeof val) + '';
+	                    if (typeVar == 'function') {
+	                        continue;
+	                    }
+	                    if ((key + '').indexOf('__') != -1) {
+	                        continue;
+	                    }
+	                    if ((ObjectElement[key] + ' ').indexOf('{ [native code] }') != -1) {
+	                        continue;
+	                    }
+	                    if ((AttributeSkip.length > -0) && (AttributeSkip.indexOf("|" + key.toUpperCase() + "|") != -1)) {
+	                        continue;
+	                    }
+	                    ObjectElement.StylesHtml[key] = {"type": typeVar, "value": val, "isEdit": false};
+	                }
+	                if (PropElementsObject["ObjectElement"]!=undefined) {
+	                  for(var subAtrEl in PropElementsObject["ObjectElement"]["StylesHtml"]){
+		                  if (typeof PropElementsObject["ObjectElement"]["StylesHtml"][subAtrEl] ==='object'){ 
+		                      var val=PropElementsObject["ObjectElement"]["StylesHtml"][subAtrEl]["value"];
+						      var typeVar=PropElementsObject["ObjectElement"]["StylesHtml"][subAtrEl]["type"];
+						      ObjectElement.StylesHtml[subAtrEl] = {"type": typeVar, "value": val, "isEdit": false};
+						      ObjectElement.style[subAtrEl]= val;
+		                  }else{
+			                  var val=PropElementsObject["ObjectElement"]["StylesHtml"][subAtrEl];
+						      ObjectElement.StylesHtml[subAtrEl] = {"type": "javascript", "value": val, "isEdit": false};
+	   					      ObjectElement.style[subAtrEl]= val;
+	                      }
+	                  }
+	                }
+                }
+            }	      
+            if (HtmlObjectNode['VisualElement']=="false"){ 
+                ObjectElement.setAttribute("hidden", "DesignerHidden");
+            }
+            if (PropElementsObject["ObjectElement"]!=undefined){
+	            if (PropElementsObject.ObjectElement["VisualElement"]=="false"){ 
+	                ObjectElement.setAttribute("hidden", "DesignerHidden");
+	            }
+            }
+           
+            if (PropElementsObject["icon"]!=undefined){
+               if(PropElementsObject["icon"]!=HtmlObjectNode['icon']){
+	              HtmlObjectNode['icon'] = PropElementsObject["icon"];
+               }
+            }
+            $(ObjectElement).data("ObjectElement", HtmlObjectNode);
+            return HtmlObjectNode;
+        }
+
+
+
+
+        initComponentArray=function(filtr){
+             if (filtr==undefined){filtr='';}; 
+             var xhr = new XMLHttpRequest(); 
+             xhr.open('GET','/csp/sys/%25ZWebDesigner.Component.index.cls?getJsonTree=1&FilterJsonTree='+filtr, false);
+             xhr.send();
+             if (xhr.status != 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+             } else { 
+                var jsonTxt=xhr.responseText;
+                return JSON.parse(jsonTxt); 
+             } 
+	         return [];
+         }
+
+        var selectComponentTree=null;
+        /// построить дерево компонентов
+        var drawComponentTree = function () {
+            /// Дерево компонентов (загружаем из component.json)
+            /// Построение дерева элементов
+            var HtmlObjectNode;
+            $('#HtmlComponentyTree').html('');
+            //  var ComponentScript = document.getElementById('ComponentScript');
+            //  ComponentScript.src+="&FilterJsonTree="+FilterJsonTree;
+            var componentArray = initComponentArray('');
+            $('#HtmlComponentyTree').jstree({'core': {"multiple": false, 'data': componentArray}})
+                .on("changed.jstree", function (e, data) {
+                    if (data.selected.length) {
+	                    selectComponentTree=data.instance.get_node(data.selected[0]).original
+                        HtmlObjectNode = data.instance.get_node(data.selected[0]).original.ObjectElement;
+                        icon = data.instance.get_node(data.selected[0]).original.icon
+                        classelement = data.instance.get_node(data.selected[0]).original.classelement
+                    }
+                }) .on("dblclick", function () {
+	              if (typeof HtmlObjectNode["UrlHelp"] === "undefined") {	                
+                    return;
+                  }
+                   var y = window.outerHeight / 2 + window.screenY - ( h / 2)
+                   var x = window.outerWidth / 2 + window.screenX - ( w / 2)
+                   var w=1000;
+                   var h=800;
+                   window.open(  HtmlObjectNode["UrlHelp"],
+                                HtmlObjectNode["classelement"],
+                                'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x
+                   );
+                  
+                }).on("click", function () {
+                CountObject++;
+                if (HtmlObjectNode == undefined) {
+                    return;
+                }
+                if (HtmlObjectNode['TagName'] == undefined) {
+                    return;
+                }
+                NewObjectElement = ContentEditorDocume.document.createElement(HtmlObjectNode['TagName']);
+                //Инициируем пользовательские события(для редактора)
+                HtmlObjectNode = InitAttributesObject(NewObjectElement, HtmlObjectNode,classelement); 
+                if ( ((HtmlObjectNode['ContentText']).length>0)&&(HtmlObjectNode['HtmlElement']=="true")){
+                    NewObjectElement['id'] = HtmlObjectNode['TagName'] + CountObject;
+                }
+                HtmlObjectNode['icon'] = icon;
+                HtmlObjectNode['classelement'] = classelement;
+                if (HtmlObjectNode['VisualElement'] == "true") {
+                    NewObjectElement.innerHTML = NewObjectElement['id'];
+                }
+            }).on("keypress", function (e) {
+                //  alert(e);
+            });
+
+        }
+
+        /// редактирование многострочного параметра в модальном окне (собранно на коленках при возможности переписать)
+        var EditWinProperty = function (PropertyEdit) {
+            $("#dialogBox").dialog({
+                title: PropertyEdit.id
+                , width: Math.floor($('body').width() * .70)
+                , height: Math.floor($('body').height() * .65)
+                , autoOpen: true
+                , closeOnEsc: true
+                , south__closable: true
+                , south__resizable: true
+                , south__slidable: false
+                , modal: false
+                , buttons: {
+                    "Close": function () {
+                        $(this).dialog('close');
+                    }
+                    , "Save": function () {
+                        var input = document.getElementById("EditCodeText");
+                        val=input.value;
+                        // val=val.replace (/<br>/g, '\r\n')
+                        var PropertyEditId = input.dataset["PropertyEditId"];
+                        var typ = (PropertyEditId).split(".")[0];
+                        var nam = (PropertyEditId).split(".")[1];
+                        var typeVar = (PropertyEditId).split(".")[2];
+                        if (typ == 'AttributesHtml') {
+                            if ((nam == "innerHTML") || (nam == "innerText")) {
+                                selectObject[nam] = val;
+                            } else {
+                                selectObject.setAttribute(nam, val);
+                            }
+                            selectObject.AttributesHtml[nam]["value"]=val;
+                            selectObject.AttributesHtml[nam]["isEdit"] = true;
+                        }
+                        if (typ == 'StylesHtml') {
+                            selectObject['style'][nam] = val
+                            selectObject.StylesHtml[nam]["value"]=val;
+                            selectObject.StylesHtml[nam]["isEdit"] = true;
+                        }
+                        if (typ == 'EventsHtml') {
+                            selectObject.setAttribute(nam, val);
+                            selectObject.EventsHtml[nam]["value"]=val;
+                            selectObject.EventsHtml[nam]["isEdit"] = true;
+                        }
+                        var prop = document.getElementById(input.dataset["PropertyEditId"]);
+                        prop.value = val
+                        // onchangeProperty(prop);
+                        $(this).dialog('close');
+                    }
+                },
+                open: function (event, ui) {
+                    // dialogLayout = $("#dialogBox").layout( dialogLayout_settings );
+                },
+                close: function (event, ui) {
+                    $(this).dialog('destroy');
+                }
+                // ,resize:		function(){ if (dialogLayout) dialogLayout.resizeAll(); }
+                , create: function (event, ui) {
+                    $(this).css({overflow: 'hidden'})
+                },
+                beforeClose: function (event, ui) {
+                    $(this).css({overflow: 'inherit'})
+                }
+
+            });
+            // костыльное решение убрать скроллер на модальном окне
+            $("#dialogBox").parent().attr("style", "left:10%;top:10%;width: 80%; max-width: 100%;  overflow: hidden;");
+            var typ = (PropertyEdit.id).split(".")[0];
+            var nam = (PropertyEdit.id).split(".")[1];
+            var typeVar = (PropertyEdit.id).split(".")[2];
+            var val = PropertyEdit.value;
+            // $("#EditPropertytextArea").html(val);
+            var div = document.getElementById("EditPropertytextArea");
+            div.innerHTML = '';
+            var input = document.createElement("textarea");
+            input.name = "post";
+            // input.maxLength = "5000";
+            // input.cols = "80";
+            input.rows = "23";
+            /// style="border:1px dotted #FF0000; width:100%; padding:5px; "
+            input['style'].width = "99%";
+            input['style'].height = "99%";
+            input['style'].overflow = "auto";
+            input['style'].padding = "5px";
+            input.dataset["PropertyEditId"] = PropertyEdit.id;
+            input.id = "EditCodeText"
+            var valobj='';
+            if (typ == 'AttributesHtml') {
+		        valobj=selectObject.AttributesHtml[nam]["value"]
+		        
+		    }
+            if (typ == 'StylesHtml') {
+                //valobj=selectObject['style'][nam];
+                valobj=selectObject.StylesHtml[nam]["value"]
+            }
+            if (typ == 'EventsHtml') {
+                //valobj=selectObject.getAttribute(nam);
+                valobj=selectObject.EventsHtml[nam]["value"]
+            }
+            if (valobj.length>0){
+                valobj=valobj.replace (/EditSelectElement/g, '')
+                valobj=valobj.replace (/style=""/g, '')
+                valobj=valobj.replace (/class=""/g, '')
+            }
+            input.value = valobj;
+            div.appendChild(input); //appendChild
+        }
+
+
+        var PropertyTab = 'AttributesHtml';
+        /// Чтение свойств выбранного элементв
+        var ReadProperty = function (OneElems) {
+            $("#InfoSelectProperty").html(PropertyTab);
+            // Удаляем событие перемещение объекта
+            var elements = document.querySelectorAll(".EditSelectElement");
+            for (var j = 0; j < elements.length; j++) {
+                $(elements[j]).removeClass("EditSelectElement");
+                if (($(elements[j])['class'] + '') == '') {
+                    $(elements[j]).removeAttribute('class');
+                }
+            }
+            $(OneElems).addClass("EditSelectElement");
+            var FilterVal = $("#EditFiltProperty").val();
+            var HtmlObjectNode = $(OneElems).data("ObjectElement");
+            if (HtmlObjectNode == undefined) {
+                HtmlObjectNode = {};
+            }
+            if (HtmlObjectNode['AttributesSkip'] == undefined) {
+                HtmlObjectNode['AttributesSkip'] = '';
+            }
+            
+            $('#AttributesConteyner').html('');
+            var txt = "";
+            var editView = "";
+            if (OneElems[PropertyTab] != undefined) {
+                for (var key in OneElems[PropertyTab]) {
+                    if ((('' + HtmlObjectNode['AttributesSkip']).length > 0) && (('' + HtmlObjectNode['AttributesSkip']).indexOf("|" + key + "|") != -1)) {
+                        continue
+                    }
+                    if ((FilterVal.length > 0) && (key.indexOf(FilterVal) == -1)) {
+                        continue
+                    }
+                    if (OneElems[PropertyTab][key]['type'] == undefined) {
+                        OneElems[PropertyTab][key]['type'] = 'boolean'
+                    }
+                    var typeVar = OneElems[PropertyTab][key]['type'];
+                    var isEdit = OneElems[PropertyTab][key]["isEdit"];
+                    var val = OneElems[PropertyTab][key]['value'];
+                    var valEl="";
+                    if ((PropertyTab == 'AttributesHtml')&&(isEdit==true)) {
+                        if ((key == "innerHTML") || (key == "innerText")) {
+                            valEl = selectObject.getAttribute(key);
+                        } else {
+                            valEl = selectObject[key]
+                        }
+                    }
+                    if ((PropertyTab == 'StylesHtml')&&(isEdit==true)) {
+                        valEl = selectObject["style"][key]
+                    }
+                    if ((PropertyTab == 'EventsHtml')&&(isEdit==true)) {
+                        valEl = selectObject.getAttribute(key);
+                    }
+                    if (isEdit==false) {
+                        valEl=val;
+                    }else{
+                      if (val != valEl){
+                         val = valEl;
+                      }
+                    }
+                    // Удаляем из значения название класса EditSelectElement (рамка выбранного объекта)
+                    if (((key == 'classList') || (key == 'className')) && (val != null) && (val.length > -0)) {
+                        if (('' + val).indexOf('EditSelectElement') != -1) {
+                            val = ('' + val).split('EditSelectElement').join('');
+                        }
+                        if (('' + val).indexOf('conteyner ui-tabs-panel ui-widget-content ui-corner-bottom') != -1) {
+                            val = ('' + val).split('conteyner ui-tabs-panel ui-widget-content ui-corner-bottom').join('');
+                        }
+                        if (('' + val).indexOf('ContainerHtmlWebDesigner') != -1) {
+                            val = ('' + val).split('ContainerHtmlWebDesigner').join('');
+                        }
+                    }
+                    var propElId=PropertyTab + '.' + key + '.' + typeVar;
+                    var editView = '';
+                    if (typeVar == 'number') {
+                        editView = '<input type="number" id="' + propElId+ '"  style="width:100%;" onchange="onchangeProperty(this);" >'
+                    } else if (typeVar == 'boolean') {
+                        editView = '';
+                        editView += '<select type="text" id="' + propElId + '" style="width:100%;" onchange="onchangeProperty(this);">'
+                        editView += '   <option value="true">true</option>';
+                        editView += '   <option value="false">false</option>';
+                        editView += '   <option value="null">null</option>';
+                        editView += '   <option value=""></option>';
+                        editView += '</select>';
+                    } else if (typeVar == 'string') {
+                        editView = '<input type="text" id="' + propElId+ '"  style="width:100%;"  onchange="onchangeProperty(this);"  ondblclick="EditWinProperty(this);">'
+                    } else if (typeVar == 'object') {
+                        editView = '<input type="text" id="' + propElId + '"  style="width:100%;"  onchange="onchangeProperty(this);"  ondblclick="EditWinProperty(this);">'
+                    } else if (typeVar == 'javascript') {
+                        editView = '<input type="text" id="' + propElId + '"  style="width:100%;"  onchange="onchangeProperty(this);"  ondblclick="EditWinProperty(this);">'
+                    } else if (typeVar.indexOf("|")!= -1) {
+		                editView = '';
+                        editView += '<select type="text" id="' + propElId + '" style="width:100%;" onchange="onchangeProperty(this);">'
+                        var arrVariant=typeVar.split("|");
+                        for(var ind in arrVariant){
+                          editView += '   <option value="'+arrVariant[ind]+'">'+arrVariant[ind]+'</option>';
+                        }
+                        editView += '</select>';      
+                    }
+                    if (editView.length > 0) {
+                        txt = '';
+                        txt = txt + '   <div class="EditProperty">';
+                        txt = txt + '       <label for="' + propElId + '" >' + key + '</label>';
+                        txt = txt + '       <div>';
+                        txt = txt + '       ' + editView;
+                        txt = txt + '       </div>';
+                        txt = txt + '   </div>';
+                        $('#AttributesConteyner').append(txt);
+                        var EditElem = document.getElementById(  propElId );
+                        EditElem.value=val;
+                    }
+                }
+            }
+        }
+
+        ///   Функция изменения свойств выбранного элемента
+        var onchangeProperty = function (elem) {
+            var typ = (elem.id).split(".")[0];
+            var nam = (elem.id).split(".")[1];
+            var typeVar = (elem.id).split(".")[2];
+            var val = elem.value;
+            if (val == 'null') {
+                val = null;
+            }
+            if (val == undefined) {
+                val = undefined;
+            }
+            if (val == 'true') {
+                val = true;
+            }
+            if (val == 'false') {
+                val = false;
+            }
+            if (typ == 'AttributesHtml') {
+                if ((val == null) || (val == undefined)) {
+                    selectObject.removeAttribute(nam);
+                } else {
+                    if ((nam == "innerHTML") ||(nam == "innerText")) {
+                        selectObject.innerText = val
+                    } else {
+                        selectObject.setAttribute(nam, val);
+                    }
+                }
+                selectObject.AttributesHtml[nam]["value"] = val
+                selectObject.AttributesHtml[nam]["isEdit"] = true;
+            }
+            if (typ == 'StylesHtml') {
+                selectObject['style'][nam] = val
+                selectObject.StylesHtml[nam]["value"] = val
+                selectObject.StylesHtml[nam]["isEdit"] = true;
+            }
+            if (typ == 'EventsHtml') {
+                selectObject.setAttribute(nam, val);
+                selectObject.EventsHtml[nam]["value"] = val
+                selectObject.EventsHtml[nam]["isEdit"] = true;
+            }
+        }
+
+        // функция открытия новой закладки
+        var OpenTab = function (NameTab, FormPath) {
+            //frameborder="0"    
+            // if (ContentEditorDocume.document.designMode != 'on' ){ }
+            ContentEditorDocumeIframe = document.getElementById('TabBody');
+            ContentEditorDocumeIframe.src = UrlServerController+"?LoadForm=1&namespace="+urlParams["namespace"]+"&class="+urlParams["class"];
+            ContentEditorDocumeIframe.onload = function () {
+	            ContentEditorDocume = (ContentEditorDocumeIframe.contentWindow) ? ContentEditorDocumeIframe.contentWindow : (ContentEditorDocumeIframe.contentDocument.document) ? ContentEditorDocumeIframe.contentDocument.document : ContentEditorDocumeIframe.contentDocument;
+	            ContentEditorDocume.document.designMode = 'on';
+	            var url=ContentEditorDocume.window.location
+	            /*
+	            console.log(url.href);      // https://developer.mozilla.org/en-US/search?q=URL#search-results-close-container
+				console.log(url.protocol);  // https:
+				console.log(url.host);      // developer.mozilla.org
+				console.log(url.hostname);  // developer.mozilla.org
+				console.log(url.port);      // (пустой - https подразумевает порт 443)
+				console.log(url.pathname);  // /en-US/search
+				console.log(url.search);    // ?q=URL
+				console.log(url.hash);      // #search-results-close-container
+				console.log(url.origin);    // https://developer.mozilla.org
+			    */
+	            if (url.pathname=='/csp/sys/%25ZWebDesigner.Controll.cls'){
+	              $("#UrlForm").val(urlParams["class"]);
+	            }else{
+	              $("#UrlForm").val(url.pathname);
+	            }
+                urlParams["class"]=$("#UrlForm").val()	            
+	            var elements = ContentEditorDocume.document.querySelectorAll('*');
+                for (var i = 0; i < elements.length; i++) {
+                    InitAttributesObject(elements[i]);
+                }
+                if (elements.length>0){
+	                ContentEditor = elements[0];
+	                selectObject = ContentEditor;
+                }
+                InitAttributesObject(ContentEditor);
+                reloadThree(true);
+                ServerFormPath = FormPath;
+           }
+          
+            
+        }
+
+        var saveWebForm = function() {
+            // TmpElement = ($("#TabBody").children()[0]).cloneNode(true)
+            TmpElement = ContentEditorDocume.document.getElementsByTagName('html')[0].cloneNode(true);
+            TmpElementSrc=ContentEditorDocume.document.getElementsByTagName('html')[0]
+            var elements = TmpElement.querySelectorAll('*');
+            var elementsSrc = TmpElementSrc.querySelectorAll('*');
+            
+            for (var i = 0; i < elements.length; i++) {
+	            if (elements[i]["style"]['border'] == 'dotted'){
+		            // Дописать проверку на пользовательское изменение свойства  style"]['border
+		            // Если изменения были от пользователя, тогда ничего не меняем 
+		            elements[i]["style"]['border'] == ''   ;
+	            }
+	            (elements[i]).removeAttribute("data--designer-three-id");
+                HtmlObjectNode = $(elementsSrc[i]).data("ObjectElement");
+                for (var key in elementsSrc[i]) {
+	                if (elementsSrc[i]["AttributesHtml"]==undefined){continue}
+                	var attr=elementsSrc[i].AttributesHtml[key] ; //= {"type": typeVar, "value": val, "isEdit": false};
+                	if (attr ==undefined){continue;}
+                	if (attr["isEdit"]!=undefined){
+	                	if (attr["isEdit"]==false){
+		                	// try { var val = ObjectElement[key]; } catch (e) { continue; }
+		                	// if (val==attr["value"]){}
+		                	if (attr["value"]==""){
+			               		elements[i].removeAttribute(key);
+			               		continue;
+		                	}
+	                 	}
+                    }
+                }
+                /// Если контент не является HTML и присутствует параметр "textcontent", тогда переносим параметр "textcontent" в "innerHTML"
+                /// Удаляем парметр "contenttext"
+                //if ((elements[i]).getAttribute('contenttext')!='html'){
+                    if ((elements[i]).getAttribute('textcontent')!=undefined){
+                       var txt=(elements[i]).getAttribute('textcontent')                       
+                       elements[i].innerHTML=txt
+                       elements[i].removeAttribute('textcontent');
+                    }
+                 //};
+                (elements[i]).removeAttribute('contenttext');
+                ///-------------------------------------------------------------------------
+            }
+            // Удалиьт атребуты data--designer-three-id="ThreeIdElement_1"
+            var bodyText = TmpElement.outerHTML
+            /* bodyText=bodyText.replace (/ super=""/g, '') */
+            console.log("bodyText",bodyText);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST',UrlServerController+"?SaveForm=1&namespace="+urlParams["namespace"]+"&class="+urlParams["class"], false);
+            // xhr.setRequestHeader('X-ServerForm-Path', ServerFormPath)
+            xhr.send(bodyText);
+            if (xhr.status != 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+                $("#terminallog").val(xhr.responseText);
+            }
+        }
+        var runWebForm = function() {
+	       var xhr = new XMLHttpRequest();
+            xhr.open('GET',UrlServerController+"?RunForm=1&namespace="+urlParams["namespace"]+"&class="+urlParams["class"], false);
+            // xhr.setRequestHeader('X-ServerForm-Path', ServerFormPath)
+            xhr.send();
+            if (xhr.status != 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+                eval(xhr.responseText);
+            }
+        }
+
+
+        var LoadSrcPage = function (pathPage) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST',UrlServerController+"?GetUrlPage=1&namespace="+urlParams["namespace"]+"&class="+urlParams["class"], false);
+            // xhr.setRequestHeader('X-ServerForm-Path', ServerFormPath)
+            xhr.send(pathPage);
+            if (xhr.status != 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+	            var jsonTxt=xhr.responseText
+	            if (jsonTxt.length > 0){
+	               var jsonObj=JSON.parse(jsonTxt)
+	               urlParams["namespace"]=jsonObj["namespace"]
+	               urlParams["class"]=jsonObj["class"]
+                   OpenTab("ContentEditorDocume", jsonObj["url"]);
+	            }else{
+		           OpenTab("ContentEditorDocume", pathPage);
+	            }
+            }
+        }
+
+        
+        var openWebForm = function () {
+            var path = prompt('Путь к форме', "");
+            if (path != null) {
+                LoadSrcPage( path);
+                $('#UrlForm').val(path);
+            }
+        }
+        var DesignModeOnOff=function(){
+	        if (ContentEditorDocume.document.designMode == 'on' ){
+		        ContentEditorDocume.document.designMode = 'off'
+	        }else{
+		        ContentEditorDocume.document.designMode = 'on' 
+	        }
+        }
+
+        /// переписать создание новой формы, тпока она закоментирована
+        var newWebForm = function () {
+            ServerFormPath = '';
+            OpenTab(null, 'about.html');
+        }
+
+        var OpenInfo = function (Url, title) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', Url, false);
+            xhr.send();
+            if (xhr.status != 200) {
+                $("#InfoArea").html(xhr.status + ': ' + xhr.statusText);
+            } else {
+                $("#InfoArea").html(xhr.responseText);
+            }
+            $("#InfoBox").dialog(
+                {
+                    title: title
+                    , width: Math.floor($('body').width() * .70)
+                    , height: Math.floor($('body').height() * .65)
+                    , autoOpen: true
+                    , closeOnEsc: true
+                    , south__closable: true
+                    , south__resizable: true
+                    , south__slidable: false
+                    , modal: false
+                    , close: function (event, ui) {
+                        $(this).dialog('destroy');
+                    }
+                });
+            // костыльное решение убрать скроллер на модальном окне
+            $("#InfoBox").parent().attr("style", "left:10%;top:10%;width: 80%; max-width: 100%;  overflow: hidden;");
+            $("#InfoArea").focus();
+        }
+
+
+        $(document).ready(function () {
+            // create the page-layout, which will ALSO create the tabs-wrapper child-layout
+            var pageLayout = $("body").layout(pageLayoutOptions);
+            // init the tabs inside the center-pane
+            // NOTE: layout.center = NEW pane-instance object
+            pageLayout.center.pane.tabs({activate: $.layout.callbacks.resizeTabLayout})
+            // make the tabs sortable
+                .find(".ui-tabs-nav").sortable({axis: 'x', zIndex: 2}).end()
+            ;
+            // after creating the tabs, resize the tabs-wrapper layout...
+            // we can access this layout as a 'child' property of the outer-center pane
+            pageLayout.center.children.tabsContainerLayout.resizeAll();
+            // init ALL the tab-layouts - all use the same options
+            // layout-initialization will _complete_ the first time each layout becomes 'visible'
+
+            $("#tab3").layout(tabLayoutOptions);
+
+            // init inner-tabs inside outer-tab #3
+            $("#innerTabs").tabs({
+                // look for and resize inner-accordion(s) each time a tab-panel is shown
+                activate: $.layout.callbacks.resizePaneAccordions
+            });
+
+            $(".accordion").accordion({heightStyle: "fill"});
+            toggleCustomTheme()
+
+            LoadSrcPage( ServerFormPath);
+            $('#UrlForm').val(ServerFormPath);
+
+
+
+
+            $("#SetAttributesHtml").on("click", function () {
+                if (selectObject) {
+                    PropertyTab = 'AttributesHtml';
+                    ReadProperty(selectObject);
+                }
+            });
+            $("#SetEventsHtml").on("click", function () {
+                if (selectObject) {
+                    PropertyTab = 'EventsHtml';
+                    ReadProperty(selectObject);
+                }
+            });
+            $("#SetStylesHtml").on("click", function () {
+                if (selectObject) {
+                    PropertyTab = 'StylesHtml';
+                    ReadProperty(selectObject);
+                }
+            });
+            $("#SetProperty").on("click", function () {
+                if (selectObject) {
+                    PropertyTab = 'Property';
+                    ReadProperty(selectObject);
+                }
+            });
+            $("#SetEvents").on("click", function () {
+                if (selectObject) {
+                    PropertyTab = 'Events';
+                    ReadProperty(selectObject);
+                }
+            });
+            drawComponentTree();
+            $('#AttributesConteyner').html('');
+            /// Запуск фильтра параметров
+            $("#EditFiltProperty").keypress(function () {
+                ReadProperty(selectObject);
+            });
+            
+            $("#EditFiltComponents").keyup(function () {
+	           var FilterJsonTree=$("#EditFiltComponents").val();
+	           var componentArray = initComponentArray(FilterJsonTree);
+	           $('#HtmlComponentyTree').jstree(true).settings.core.data = componentArray;
+               $('#HtmlComponentyTree').jstree(true).refresh();
+            });
+
+			$("#UrlForm").keypress(function(e) {
+			    if(e.which == 13) {
+			       ServerFormPath=$("#UrlForm").val()
+                   LoadSrcPage( ServerFormPath);
+			    }
+			});
+
+        });
+
+    </script>
+
+
+<body class="custom">
+
+<div id="outer-north">
+    <!-- меню бар -->
+</div>
+
+
+<div id="outer-center" class="hidden">
+
+
+    <div id="tabpanels">
+
+
+        <div id="tab3" class="tab-panel hidden">
+            <div class="ui-layout-north ui-widget">
+                <div class="toolbar ui-widget-content ui-state-active"><!-- Верхняя полоска--></div>
+            </div>
+            <div class="ui-layout-south ui-widget">
+                <div class="toolbar ui-widget-content ui-state-default"><!-- Нижняя полоска--></div>
+                
+
+				<div class="ui-layout-south">
+					<div class="ui-widget-content-panel" style="height:100px;" >
+						<textarea id='terminallog' style="height:98%;width:100%" ></textarea>
+					</div>
+					<div class="ui-widget-footer ui-widget-header ui-corner-bottom"></div>
+				</div>
+            </div>
+
+
+            <!-- Центр -->
+            <div id="innerTabs" class="ui-layout-center container tabs" style="overflow: hidden;">
+                <center> 
+                <input id="UrlForm"  style="width:100%;" onkeyup='event.preventDefault();if (event.keyCode === 13) { LoadSrcPage( $("#UrlForm").val())    } '>
+                </center>
+                <UL id='TabItem' style="display:none;"></UL>
+                <iframe id='TabBody' class="ui-widget-content" width="98%" height="79%">
+                </iframe>
+            </div>
+
+
+            <div class="ui-layout-west">
+                <!-- Лево+верх -->
+                <div class="ui-layout-north">
+                    <div class="ui-widget-header ui-corner-top"><img src="img/Reloadbtn.png"
+                                                                     onclick=' reloadThree(false);' width="16"
+                                                                     height="16" align="right" style='cursor:pointer'>&nbsp
+                    </div>
+                    <div class="ui-widget-content">
+
+                        <div id="htmlContentTree" class="demo"></div>
+                    </div>
+                    <div class="ui-widget-footer ui-widget-header ui-corner-bottom"></div>
+                </div>
+
+                <!-- Лево+центр -->
+                <div class="ui-layout-center">
+                    <div class="ui-widget-header ui-corner-top">
+                        <div align="center">
+                            <button id='SetAttributesHtml'>Attributes</button>
+                            <button id='SetStylesHtml'>Styles</button>
+                            <button id='SetEventsHtml'>Events</button>
+                            <!--
+                          <br>
+                          <button id='SetProperty' style="width: 46%">Property</button>
+                          <button id='SetEvents' style="width: 46%">Events</button>
+                          -->
+                        </div>
+                        <input id='EditFiltProperty' style="width: 98%" placeholder="Filter..."/>
+                    </div>
+                    <div class="ui-widget-content" id="AttributesConteyner">
+                        <p>Лево+центр</p>
+                    </div>
+                    <div class="ui-widget-footer ui-widget-header ui-corner-bottom" id='InfoSelectProperty'>
+                        AttributesHtml&nbsp
+                    </div>
+                </div>
+
+                <!-- Лево+низ -->
+                <!--
+                    <div class="ui-layout-south">
+                        <div class="ui-widget-header ui-corner-top"></div>
+                        <div class="ui-widget-content">
+                            <p>Лево+низ</p>
+                        </div>
+                        <div class="ui-widget-footer ui-widget-header ui-corner-bottom"></div>
+                    </div>
+              -->
+            </div>
+
+
+            <!-- Право -->
+            <div class="ui-layout-east">
+                <!-- Право+верх-->
+                <div class="ui-layout-center">
+                    <div class="ui-widget-header ui-corner-top">
+                      <input id='EditFiltComponents' style="width: 98%" placeholder=""/>
+                    </div>
+                    <div class="ui-widget-content">
+                        <div id="HtmlComponentyTree"></div>
+                    </div>
+                    <div class="ui-widget-footer ui-widget-header ui-corner-bottom"></div>
+                </div>
+
+                <!-- Право+низ--><!--
+				<div class="ui-layout-south">
+					<div class="ui-widget-header ui-corner-top"></div>
+					<div class="ui-widget-content-panel">
+						<div><a href="#">Право+низ</a></div>
+						<button onclick="">add tab</button>
+					</div>
+					<div class="ui-widget-footer ui-widget-header ui-corner-bottom"></div>
+				</div>
+			  -->
+
+            </div>
+        </div><!-- /#tab3 -->
+    </div><!-- /#tabpanels -->
+
+    <!-- #Верхнее меню -->
+    <UL id="tabbuttons" class="hidden" style="  background-color: #999;">
+        <!--LI class="tab3" ><a href="#tab3" style="display:none"></a></LI-->
+        <ul class='navmin'>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">File</a>
+                <div class="dropdown-content">
+                    <!--<a href="#" onclick='newWebForm();'>New</a>-->
+                    <!--<a href="#" onclick='openWebForm()'>Open</a>-->
+                    <a href="#" onclick='saveWebForm();'>Save</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Edit</a>
+                <div class="dropdown-content">
+                    <a href="#" onclick='DesignModeOnOff();'>DesignMode On/Off</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Run</a>
+                <div class="dropdown-content">
+                    <a href="#" onclick='runWebForm()'>Run new window</a>
+                </div>
+            </li>
+            
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Help</a>
+                <div class="dropdown-content">
+                    <a href="#" onclick="OpenInfo('about.txt');">About</a>
+                </div>
+            </li>
+
+        </ul>
+    </UL>
+    <!-- /#Верхнее меню -->
+
+</div><!-- /#outer-center -->
+
+
+<!-- DIALOG BOX w/ INNER-LAYOUT  overflow-y: scroll; -->
+<div id="dialogBox">
+    <div id="EditPropertytextArea">
+    </div>
+</div>
+
+<div id="InfoBox">
+    <div id="InfoArea">
+        Scrolling content...
+    </div>
+</div>
+
+
+</body>
+
+
+</body>
+</html>

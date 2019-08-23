@@ -981,13 +981,6 @@
         }
 
         
-        var openWebForm = function () {
-            var path = prompt('Путь к форме', "");
-            if (path != null) {
-                LoadSrcPage( path);
-                $('#UrlForm').val(path);
-            }
-        }
         var DesignModeOnOff=function(){
 	        if (ContentEditorDocume.document.designMode == 'on' ){
 		        ContentEditorDocume.document.designMode = 'off'
@@ -1159,7 +1152,7 @@
                 <input id="UrlForm"  style="width:100%;" onkeyup='event.preventDefault();if (event.keyCode === 13) { LoadSrcPage( $("#UrlForm").val())    } '>
                 </center>
                 <UL id='TabItem' style="display:none;"></UL>
-                <iframe id='TabBody' class="ui-widget-content" width="98%" height="79%">
+                <iframe id='TabBody' class="ui-widget-content" width="98.7%" height="79%">
                 </iframe>
             </div>
 
@@ -1250,7 +1243,6 @@
                 <a href="javascript:void(0)" class="dropbtn">File</a>
                 <div class="dropdown-content">
                     <!--<a href="#" onclick='newWebForm();'>New</a>-->
-                    <!--<a href="#" onclick='openWebForm()'>Open</a>-->
                     <a href="#" onclick='saveWebForm();'>Save</a>
                 </div>
             </li>

@@ -1,10 +1,14 @@
 
-<center><h1>WebDesigner</h1><br><img src="img/logo.png"></center>
+<center><h1>Plagin Web Designer</h1><br><img src="img/logo.png"></center>
 Proct WebDesigner is a visual editor for HTML pages.
 <br>The components used in the development:
-<br>   1) jqery
-<br>   2) jstree
-<br>   3) jquery-ui
-<br>   4) jqery.Layout
+<br>   1) jqery (<a href='https://raw.githubusercontent.com/jquery/jquery/master/LICENSE.txt' target="_blank">license</a>)
+<br>   2) jstree (<a href='https://raw.githubusercontent.com/vakata/jstree/master/LICENSE-MIT' target="_blank">license</a>)
+<br>   3) jquery-ui (<a href='https://raw.githubusercontent.com/jquery/jquery-ui/master/LICENSE.txt' target="_blank">license</a>) 
+<br>   4) jQuery UI Layout (<a href='https://raw.githubusercontent.com/allpro/layout/master/LICENSE.txt' target="_blank">license</a>) 
 <br>
-<br> Author: Myasnikov Ivan Alexandrovich (Miacom@mail.ru)
+<br>   
+<br> Author: Myasnikov Ivan Alexandrovich 
+<br> E-mail: <a href="mailto:Miacom@mail.ru">Miacom@mail.ru</a> 
+<br> Git: <a href="https://github.com/MyasnikovIA/WebDesigner"  target="_blank">WebDesigner</a> 
+<br> <a href='https://raw.githubusercontent.com/allpro/layout/master/LICENSE.txt' target="_blank">License</a>

@@ -11,3 +11,4 @@
      d ##class(%ZWebDesigner.SourceControll).InstallSorceControllAllNameSpace() //Установить контроль версии на все области имен
  </pre>
 После этих действий в студии (в области имен) в контекстном меню появится кнопку запуска визуального дизайнера
+   "Cache Web Builder" -> "Designer"

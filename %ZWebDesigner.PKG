@@ -308,64 +308,6 @@
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPServer">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,1501.451149</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Server</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>server</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/server.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>cache</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=server</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Description>
-textContent</Description>
-<Default>|classList|className|id|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|innerText|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
 <Class name="%ZWebDesigner.Component.CacheSrverPage.CSPclass">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65238,80723.202703</TimeCreated>
@@ -758,6 +700,64 @@ textContent</Description>
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPserver">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,1501.451149</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>CSP:Server</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>server</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/server.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>cache</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=server</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Description>
+textContent</Description>
+<Default>|classList|className|id|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|innerText|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.CacheSrverPage.CSPsqlquery">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65238,85594.252871</TimeCreated>
@@ -766,11 +766,11 @@ textContent</Description>
 </Parameter>
 
 <Parameter name="text">
-<Default>CSP:Query</Default>
+<Default>CSP:SqlQuery</Default>
 </Parameter>
 
 <Parameter name="TagName">
-<Default>CSP:QUERY</Default>
+<Default>CSP:SQLQUERY</Default>
 </Parameter>
 
 <Parameter name="icon">

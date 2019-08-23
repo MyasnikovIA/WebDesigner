@@ -290,7 +290,7 @@
 
 <Method name="GetGroup">
 <ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<FormalSpec>DrawClass=0</FormalSpec>
 <ReturnType>%Library.DynamicObject</ReturnType>
 <Implementation><![CDATA[
    #dim htmlElements as %Library.DynamicObject= {
@@ -300,35 +300,73 @@
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson",FilterJsonTree)
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.CacheServicePage.Class">
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPServer">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,1501.451149</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>CSP:Server</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>server</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/server.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>cache</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=server</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Description>
+textContent</Description>
+<Default>|classList|className|id|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|innerText|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPclass">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65238,80723.202703</TimeCreated>
 
@@ -344,7 +382,7 @@
 </Parameter>
 
 <Parameter name="icon">
-<Default>img/component/button.png</Default>
+<Default>img/component/cspclass.png</Default>
 </Parameter>
 
 <Parameter name="ContentText">
@@ -384,121 +422,7 @@
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.CacheServicePage.Comment">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,81408.089735</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Comment</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:COMMENT</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_COMMENT</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|innerHTML|id|name|classList|className|id|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePage.Content">
-<Description>
-https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_CONTENT</Description>
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,81985.323817</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Content</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:CONTENT</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_CONTENT</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"CHARSET":"","ENNOCHARSETCONVERTCODED":{"type":"0|1","value":""},"TYPE":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePage.Include">
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPinclude">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65238,84071.166361</TimeCreated>
 
@@ -514,7 +438,7 @@ https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_
 </Parameter>
 
 <Parameter name="icon">
-<Default>img/component/button.png</Default>
+<Default>img/component/cspinclude.png</Default>
 </Parameter>
 
 <Parameter name="ContentText">
@@ -551,826 +475,6 @@ https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePage.Matchlanguage">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,84584.606313</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Matchlanguage</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:MATCHLANGUAGE</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_MATCHLANGUAGE</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|innerHTML|id|name|classList|className|id|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePage.Parameter">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,79653.425067</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Parameter</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:PARAMETER</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_PARAMETER</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{ "name":"","value":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePage.index">
-<Description>
-https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSPTAGS</Description>
-<Super>%RegisteredObject</Super>
-<TimeCreated>65238,79674.094468</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "CSP Component",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-         if DrawClass'=0{
-	         If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-		        d $zObjClassMethod(ClassName,"RegisterClass")
-		     }
-         }
-      }   
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Continue">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,83460.710846</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Continue</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:CONTINUE</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_CONTINUE</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Else">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,83954.428734</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Else</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:ELSE</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_ELSE</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Loop">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,84263.898974</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Loop</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:LOOP</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_LOOP</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"COUNTER":"","FROM":"","STEP":"","TO":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.New">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,84675.40719</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Continue</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:CONTINUE</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_NEW</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"VARS":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Object">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,84775.443893</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Object</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:OBJECT</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_OBJECT</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"CLASSNAME":"","NAME":"","OBJID":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Query">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,84984.392986</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Query</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:QUERY</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_QUERY</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"CLASSNAME":"","QUERYNAME":"","P1":"","P2":"","P3":"","P4":"","NAME":"","MODE":{"type":"|LOGICAL|ODBC|DISPLAY|SYSTEM","value":""}}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Quit">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,85081.910355</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Quit</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:QUIT</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_QUIT</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.SQLQuery">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,85594.252871</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Query</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:QUERY</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_SQLQUERY</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"CLASDATASOURCENAME":"","PASSWORD":"","USERNAME":"","P1":"","P2":"","P3":"","P4":"","NAME":"","MODE":{"type":"|LOGICAL|ODBC|DISPLAY|SYSTEM","value":""}}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.Search">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,85369.764987</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:Continue</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:CONTINUE</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_SEARCH</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"WHERE":"","TARGET":"","STARTVALUES":"","SHOWSQL":{"type":"0|1|","value":""},"SELECT":"","PREDICATES":"","ORDER":"","OPTIONS":"","ONSELECT":"","OBJIDATTR":"","OBJID":"","NODISPLAY":"","NAME":"","MAXROWS":"","IDNAME":"","FORM":"","FEATURES":"","CLASSNAME":"","CAPTION":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.While">
-<Description>
-https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_WHILE</Description>
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,83613.539658</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:If</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:IF</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_WHILE</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"CONDITION":"","COUNTER":"","CURSOR":"","INTO":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.if">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,83421.483851</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>CSP:If</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>CSP:IF</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_IF</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"CONDITION":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.CacheServicePageProg.index">
-<Description>
-https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSPTAGS</Description>
-<Super>%RegisteredObject</Super>
-<TimeCreated>65238,83336.008699</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "CSP Command",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }         
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
-    q htmlElements
-]]></Implementation>
-</Method>
 </Class>
 
 
@@ -1430,27 +534,27 @@ https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.CacheSrverPage.Server">
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPobject">
 <Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,1501.451149</TimeCreated>
+<TimeCreated>65238,84775.443893</TimeCreated>
 
 <Parameter name="ObjectType">
 </Parameter>
 
 <Parameter name="text">
-<Default>Server</Default>
+<Default>CSP:Object</Default>
 </Parameter>
 
 <Parameter name="TagName">
-<Default>server</Default>
+<Default>CSP:OBJECT</Default>
 </Parameter>
 
 <Parameter name="icon">
-<Default>img/component/server.png</Default>
+<Default>img/component/cspobject.png</Default>
 </Parameter>
 
 <Parameter name="ContentText">
-<Default>cache</Default>
+<Default>false</Default>
 </Parameter>
 
 <Parameter name="VisualElement">
@@ -1462,18 +566,240 @@ https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_
 </Parameter>
 
 <Parameter name="UrlHelp">
-<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=server</Default>
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_OBJECT</Default>
 </Parameter>
 
 <Parameter name="AttributesSkip">
-<Description>
-textContent</Description>
-<Default>|classList|className|id|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|innerText|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|</Default>
+<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
 </Parameter>
 
 <Property name="AttributesHtml">
 <Type>%Library.DynamicObject</Type>
+<InitialExpression>{"CLASSNAME":"","NAME":"","OBJID":""}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPparameter">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65238,79653.425067</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>CSP:Parameter</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>CSP:PARAMETER</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/cspparameter.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_PARAMETER</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{ "name":"","value":""}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPquery">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65238,84984.392986</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>CSP:Query</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>CSP:QUERY</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/cspquery.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_QUERY</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{"CLASSNAME":"","QUERYNAME":"","P1":"","P2":"","P3":"","P4":"","NAME":"","MODE":{"type":"|LOGICAL|ODBC|DISPLAY|SYSTEM","value":""}}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPsearch">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65238,85369.764987</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>CSP:Search</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>CSP:SEARCH</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/cspcearch.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_SEARCH</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{"WHERE":"","TARGET":"","STARTVALUES":"","SHOWSQL":{"type":"0|1|","value":""},"SELECT":"","PREDICATES":"","ORDER":"","OPTIONS":"","ONSELECT":"","OBJIDATTR":"","OBJID":"","NODISPLAY":"","NAME":"","MAXROWS":"","IDNAME":"","FORM":"","FEATURES":"","CLASSNAME":"","CAPTION":""}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPsqlquery">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65238,85594.252871</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>CSP:Query</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>CSP:QUERY</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/cspsqlquery.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>false</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://cedocs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RCSP_CSP_SQLQUERY</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Default>|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{"CLASDATASOURCENAME":"","PASSWORD":"","USERNAME":"","P1":"","P2":"","P3":"","P4":"","NAME":"","MODE":{"type":"|LOGICAL|ODBC|DISPLAY|SYSTEM","value":""}}</InitialExpression>
 </Property>
 
 <Property name="StylesHtml">
@@ -1510,656 +836,6 @@ textContent</Description>
     }
     d htmlElements.%Set("UrlHelp",..#UrlHelp)
     s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.D3.D3Input">
-<Description>
-zw ^oddDEF("%ZWebDesigner.Component.D3.D3Input")</Description>
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65239,2918.842606</TimeCreated>
-
-<Parameter name="ObjectType">
-<Default>HTMLElement</Default>
-</Parameter>
-
-<Parameter name="text">
-<Default>D3:Input</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>d3-input</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/input.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{ "value":"","bind":""}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Method name="constructor">
-<Description>
-d ##class(%ZWebDesigner.Component.D3.D3Input).RegisterClass()
-конструктор</Description>
-<Language>javascript</Language>
-<ClientMethod>1</ClientMethod>
-<Implementation><![CDATA[
-    super(); 
-    var shadow = this.attachShadow({mode: 'open'});
-    var wrapper = document.createElement('input');
-    shadow.appendChild(wrapper);
-    var style = document.createElement('style');
-    style.textContent = ' ';
-    shadow.appendChild(style);
-]]></Implementation>
-</Method>
-
-<Method name="getobservedAttributes">
-<Description>
-объявляем переменные за которыми будем следить
-static getobservedAttributes() {        return ['value'];    }</Description>
-<ClassMethod>1</ClassMethod>
-<Language>javascript</Language>
-<ClientMethod>1</ClientMethod>
-<Implementation><![CDATA[  return ['value'];
-]]></Implementation>
-</Method>
-
-<Method name="attributeChangedCallback">
-<Description>
-обрабатываем переменные , которые поменялись   </Description>
-<FormalSpec>name,oldValue,newValue</FormalSpec>
-<Language>javascript</Language>
-<ClientMethod>1</ClientMethod>
-<Implementation><![CDATA[
-        var shadow = this.shadowRoot;
-        var childNodes = shadow.childNodes;
-        for (var i = 0; i < childNodes.length; i++) {
-            if (childNodes[i].nodeName === 'INPUT') {
-                childNodes[i].value = this.getAttribute('value');
-            }
-        }
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.D3.QRcode">
-<Description><![CDATA[
-<script src="webcomponents-lite.js"></script>
-<qr-code data="bla bla blaaaaaaaaaahhh" margin="5" format="svg" modulesize="4" ></qr-code>]]></Description>
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65239,28456.510831</TimeCreated>
-
-<Parameter name="ObjectType">
-<Default>WebComponent</Default>
-</Parameter>
-
-<Parameter name="text">
-<Default>D3:QRcode</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>qr-code</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/input.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{ "data":"","value":"","margin":4,"modulesize":5,"Format":{"type":"svg|html|png","value":"svg"}}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="ImportLib">
-<Description>
-Библиотека для импорта</Description>
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>["webcomponents-lite.js"]</InitialExpression>
-</Property>
-
-<XData name="initjs">
-<Description>
- d $zObjClassMethod("%ZWebDesigner.Component.D3.QRcode","DrawXdata","initjs") d ##class(%ZWebDesigner.Component.D3.QRcode).DrawXdata("initjs") </Description>
-<Data><![CDATA[
-<script><![CDATA[
-!function (t) {
-    var e = {};
-
-    function r(n) {
-        if (e[n]) return e[n].exports;
-        var o = e[n] = {i: n, l: !1, exports: {}};
-        return t[n].call(o.exports, o, o.exports, r), o.l = !0, o.exports
-    }
-
-    r.m = t, r.c = e, r.d = function (t, e, n) {
-        r.o(t, e) || Object.defineProperty(t, e, {enumerable: !0, get: n})
-    }, r.r = function (t) {
-        "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(t, Symbol.toStringTag, {value: "Module"}), Object.defineProperty(t, "__esModule", {value: !0})
-    }, r.t = function (t, e) {
-        if (1 & e && (t = r(t)), 8 & e) return t;
-        if (4 & e && "object" == typeof t && t && t.__esModule) return t;
-        var n = Object.create(null);
-        if (r.r(n), Object.defineProperty(n, "default", {
-            enumerable: !0,
-            value: t
-        }), 2 & e && "string" != typeof t) for (var o in t) r.d(n, o, function (e) {
-            return t[e]
-        }.bind(null, o));
-        return n
-    }, r.n = function (t) {
-        var e = t && t.__esModule ? function () {
-            return t.default
-        } : function () {
-            return t
-        };
-        return r.d(e, "a", e), e
-    }, r.o = function (t, e) {
-        return Object.prototype.hasOwnProperty.call(t, e)
-    }, r.p = "", r(r.s = 1)
-}([function (t, e, r) {
-    var n, o, a;
-    o = [], void 0 === (a = "function" == typeof (n = function () {
-        for (var t = [null, [[10, 7, 17, 13], [1, 1, 1, 1], []], [[16, 10, 28, 22], [1, 1, 1, 1], [4, 16]], [[26, 15, 22, 18], [1, 1, 2, 2], [4, 20]], [[18, 20, 16, 26], [2, 1, 4, 2], [4, 24]], [[24, 26, 22, 18], [2, 1, 4, 4], [4, 28]], [[16, 18, 28, 24], [4, 2, 4, 4], [4, 32]], [[18, 20, 26, 18], [4, 2, 5, 6], [4, 20, 36]], [[22, 24, 26, 22], [4, 2, 6, 6], [4, 22, 40]], [[22, 30, 24, 20], [5, 2, 8, 8], [4, 24, 44]], [[26, 18, 28, 24], [5, 4, 8, 8], [4, 26, 48]], [[30, 20, 24, 28], [5, 4, 11, 8], [4, 28, 52]], [[22, 24, 28, 26], [8, 4, 11, 10], [4, 30, 56]], [[22, 26, 22, 24], [9, 4, 16, 12], [4, 32, 60]], [[24, 30, 24, 20], [9, 4, 16, 16], [4, 24, 44, 64]], [[24, 22, 24, 30], [10, 6, 18, 12], [4, 24, 46, 68]], [[28, 24, 30, 24], [10, 6, 16, 17], [4, 24, 48, 72]], [[28, 28, 28, 28], [11, 6, 19, 16], [4, 28, 52, 76]], [[26, 30, 28, 28], [13, 6, 21, 18], [4, 28, 54, 80]], [[26, 28, 26, 26], [14, 7, 25, 21], [4, 28, 56, 84]], [[26, 28, 28, 30], [16, 8, 25, 20], [4, 32, 60, 88]], [[26, 28, 30, 28], [17, 8, 25, 23], [4, 26, 48, 70, 92]], [[28, 28, 24, 30], [17, 9, 34, 23], [4, 24, 48, 72, 96]], [[28, 30, 30, 30], [18, 9, 30, 25], [4, 28, 52, 76, 100]], [[28, 30, 30, 30], [20, 10, 32, 27], [4, 26, 52, 78, 104]], [[28, 26, 30, 30], [21, 12, 35, 29], [4, 30, 56, 82, 108]], [[28, 28, 30, 28], [23, 12, 37, 34], [4, 28, 56, 84, 112]], [[28, 30, 30, 30], [25, 12, 40, 34], [4, 32, 60, 88, 116]], [[28, 30, 30, 30], [26, 13, 42, 35], [4, 24, 48, 72, 96, 120]], [[28, 30, 30, 30], [28, 14, 45, 38], [4, 28, 52, 76, 100, 124]], [[28, 30, 30, 30], [29, 15, 48, 40], [4, 24, 50, 76, 102, 128]], [[28, 30, 30, 30], [31, 16, 51, 43], [4, 28, 54, 80, 106, 132]], [[28, 30, 30, 30], [33, 17, 54, 45], [4, 32, 58, 84, 110, 136]], [[28, 30, 30, 30], [35, 18, 57, 48], [4, 28, 56, 84, 112, 140]], [[28, 30, 30, 30], [37, 19, 60, 51], [4, 32, 60, 88, 116, 144]], [[28, 30, 30, 30], [38, 19, 63, 53], [4, 28, 52, 76, 100, 124, 148]], [[28, 30, 30, 30], [40, 20, 66, 56], [4, 22, 48, 74, 100, 126, 152]], [[28, 30, 30, 30], [43, 21, 70, 59], [4, 26, 52, 78, 104, 130, 156]], [[28, 30, 30, 30], [45, 22, 74, 62], [4, 30, 56, 82, 108, 134, 160]], [[28, 30, 30, 30], [47, 24, 77, 65], [4, 24, 52, 80, 108, 136, 164]], [[28, 30, 30, 30], [49, 25, 81, 68], [4, 28, 56, 84, 112, 140, 168]]], e = /^\d*$/, r = /^[A-Za-z0-9 $%*+\-.\/:]*$/, n = /^[A-Z0-9 $%*+\-.\/:]*$/, o = [], a = [-1], i = 0, u = 1; i < 255; ++i) o.push(u), a[u] = i, u = 2 * u ^ (u >= 128 ? 285 : 0);
-        for (var f = [[]], i = 0; i < 30; ++i) {
-            for (var c = f[i], s = [], l = 0; l <= i; ++l) {
-                var h = l < i ? o[c[l]] : 0, p = o[(i + (c[l - 1] || 0)) % 255];
-                s.push(a[h ^ p])
-            }
-            f.push(s)
-        }
-        for (var v = {}, i = 0; i < 45; ++i) v["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".charAt(i)] = i;
-        var d = [function (t, e) {
-            return (t + e) % 2 == 0
-        }, function (t, e) {
-            return t % 2 == 0
-        }, function (t, e) {
-            return e % 3 == 0
-        }, function (t, e) {
-            return (t + e) % 3 == 0
-        }, function (t, e) {
-            return ((t / 2 | 0) + (e / 3 | 0)) % 2 == 0
-        }, function (t, e) {
-            return t * e % 2 + t * e % 3 == 0
-        }, function (t, e) {
-            return (t * e % 2 + t * e % 3) % 2 == 0
-        }, function (t, e) {
-            return ((t + e) % 2 + t * e % 3) % 2 == 0
-        }], g = function (t) {
-            return t > 6
-        }, y = function (e, r) {
-            var n = -8 & function (e) {
-                var r = t[e], n = 16 * e * e + 128 * e + 64;
-                return g(e) && (n -= 36), r[2].length && (n -= 25 * r[2].length * r[2].length - 10 * r[2].length - 55), n
-            }(e), o = t[e];
-            return n -= 8 * o[0][r] * o[1][r]
-        }, m = function (t, e) {
-            switch (e) {
-                case 1:
-                    return t < 10 ? 10 : t < 27 ? 12 : 14;
-                case 2:
-                    return t < 10 ? 9 : t < 27 ? 11 : 13;
-                case 4:
-                    return t < 10 ? 8 : 16;
-                case 8:
-                    return t < 10 ? 8 : t < 27 ? 10 : 12
-            }
-        }, b = function (t, e, r) {
-            var n = y(t, r) - 4 - m(t, e);
-            switch (e) {
-                case 1:
-                    return 3 * (n / 10 | 0) + (n % 10 < 4 ? 0 : n % 10 < 7 ? 1 : 2);
-                case 2:
-                    return 2 * (n / 11 | 0) + (n % 11 < 6 ? 0 : 1);
-                case 4:
-                    return n / 8 | 0;
-                case 8:
-                    return n / 13 | 0
-            }
-        }, w = function (t, e) {
-            for (var r = t.slice(0), n = t.length, i = e.length, u = 0; u < i; ++u) r.push(0);
-            for (var u = 0; u < n;) {
-                var f = a[r[u++]];
-                if (f >= 0) for (var c = 0; c < i; ++c) r[u + c] ^= o[(f + e[c]) % 255]
-            }
-            return r.slice(n)
-        }, O = function (t, e, r, n) {
-            for (var o = t << n, a = e - 1; a >= 0; --a) o >> n + a & 1 && (o ^= r << a);
-            return t << n | o
-        }, x = function (t, e, r) {
-            for (var n = d[r], o = t.length, a = 0; a < o; ++a) for (var i = 0; i < o; ++i) e[a][i] || (t[a][i] ^= n(a, i));
-            return t
-        }, M = function (t, e, r, n) {
-            for (var o = t.length, a = 21522 ^ O(r << 3 | n, 5, 1335, 10), i = 0; i < 15; ++i) {
-                var u = [0, 1, 2, 3, 4, 5, 7, 8, o - 7, o - 6, o - 5, o - 4, o - 3, o - 2, o - 1][i],
-                    f = [o - 1, o - 2, o - 3, o - 4, o - 5, o - 6, o - 7, o - 8, 7, 5, 4, 3, 2, 1, 0][i];
-                t[u][8] = t[8][f] = a >> i & 1
-            }
-            return t
-        }, S = function (t) {
-            for (var e = function (t) {
-                for (var e = 0, r = 0; r < t.length; ++r) t[r] >= 5 && (e += t[r] - 5 + 3);
-                for (var r = 5; r < t.length; r += 2) {
-                    var n = t[r];
-                    t[r - 1] == n && t[r - 2] == 3 * n && t[r - 3] == n && t[r - 4] == n && (t[r - 5] >= 4 * n || t[r + 1] >= 4 * n) && (e += 40)
-                }
-                return e
-            }, r = t.length, n = 0, o = 0, a = 0; a < r; ++a) {
-                var i, u = t[a];
-                i = [0];
-                for (var f = 0; f < r;) {
-                    for (c = 0; f < r && u[f]; ++c) ++f;
-                    for (i.push(c), c = 0; f < r && !u[f]; ++c) ++f;
-                    i.push(c)
-                }
-                n += e(i), i = [0];
-                for (var f = 0; f < r;) {
-                    var c;
-                    for (c = 0; f < r && t[f][a]; ++c) ++f;
-                    for (i.push(c), c = 0; f < r && !t[f][a]; ++c) ++f;
-                    i.push(c)
-                }
-                n += e(i);
-                var s = t[a + 1] || [];
-                o += u[0];
-                for (var f = 1; f < r; ++f) {
-                    var l = u[f];
-                    o += l, u[f - 1] == l && s[f] === l && s[f - 1] === l && (n += 3)
-                }
-            }
-            return n += 10 * (Math.abs(o / r / r - .5) / .05 | 0)
-        }, P = function (e, r, n, o, a) {
-            var i = t[r], u = function (t, e, r, n) {
-                var o = [], a = 0, i = 8, u = r.length, f = function (t, e) {
-                    if (e >= i) {
-                        for (o.push(a | t >> (e -= i)); e >= 8;) o.push(t >> (e -= 8) & 255);
-                        a = 0, i = 8
-                    }
-                    e > 0 && (a |= (t & (1 << e) - 1) << (i -= e))
-                }, c = m(t, e);
-                switch (f(e, 4), f(u, c), e) {
-                    case 1:
-                        for (var s = 2; s < u; s += 3) f(parseInt(r.substring(s - 2, s + 1), 10), 10);
-                        f(parseInt(r.substring(s - 2), 10), [0, 4, 7][u % 3]);
-                        break;
-                    case 2:
-                        for (var s = 1; s < u; s += 2) f(45 * v[r.charAt(s - 1)] + v[r.charAt(s)], 11);
-                        u % 2 == 1 && f(v[r.charAt(s - 1)], 6);
-                        break;
-                    case 4:
-                        for (var s = 0; s < u; ++s) f(r[s], 8)
-                }
-                for (f(0, 4), i < 8 && o.push(a); o.length + 1 < n;) o.push(236, 17);
-                return o.length < n && o.push(236), o
-            }(r, n, e, y(r, o) >> 3);
-            u = function (t, e, r) {
-                for (var n = [], o = t.length / e | 0, a = 0, i = e - t.length % e, u = 0; u < i; ++u) n.push(a), a += o;
-                for (var u = i; u < e; ++u) n.push(a), a += o + 1;
-                n.push(a);
-                for (var f = [], u = 0; u < e; ++u) f.push(w(t.slice(n[u], n[u + 1]), r));
-                for (var c = [], s = t.length / e | 0, u = 0; u < s; ++u) for (var l = 0; l < e; ++l) c.push(t[n[l] + u]);
-                for (var l = i; l < e; ++l) c.push(t[n[l + 1] - 1]);
-                for (var u = 0; u < r.length; ++u) for (var l = 0; l < e; ++l) c.push(f[l][u]);
-                return c
-            }(u, i[1][o], f[i[0][o]]);
-            var c = function (e) {
-                for (var r = t[e], n = function (t) {
-                    return 4 * t + 17
-                }(e), o = [], a = [], i = 0; i < n; ++i) o.push([]), a.push([]);
-                var u = function (t, e, r, n, i) {
-                    for (var u = 0; u < r; ++u) for (var f = 0; f < n; ++f) o[t + u][e + f] = i[u] >> f & 1, a[t + u][e + f] = 1
-                };
-                u(0, 0, 9, 9, [127, 65, 93, 93, 93, 65, 383, 0, 64]), u(n - 8, 0, 8, 9, [256, 127, 65, 93, 93, 93, 65, 127]), u(0, n - 8, 9, 8, [254, 130, 186, 186, 186, 130, 254, 0, 0]);
-                for (var i = 9; i < n - 8; ++i) o[6][i] = o[i][6] = 1 & ~i, a[6][i] = a[i][6] = 1;
-                for (var f = r[2], c = f.length, i = 0; i < c; ++i) for (var s = 0 == i || i == c - 1 ? 1 : 0, l = 0 == i ? c - 1 : c, h = s; h < l; ++h) u(f[i], f[h], 5, 5, [31, 17, 21, 17, 31]);
-                if (g(e)) for (var p = O(e, 6, 7973, 12), v = 0, i = 0; i < 6; ++i) for (var h = 0; h < 3; ++h) o[i][n - 11 + h] = o[n - 11 + h][i] = p >> v++ & 1, a[i][n - 11 + h] = a[n - 11 + h][i] = 1;
-                return {matrix: o, reserved: a}
-            }(r), s = c.matrix, l = c.reserved;
-            if (function (t, e, r) {
-                for (var n = t.length, o = 0, a = -1, i = n - 1; i >= 0; i -= 2) {
-                    6 == i && --i;
-                    for (var u = a < 0 ? n - 1 : 0, f = 0; f < n; ++f) {
-                        for (var c = i; c > i - 2; --c) e[u][c] || (t[u][c] = r[o >> 3] >> (7 & ~o) & 1, ++o);
-                        u += a
-                    }
-                    a = -a
-                }
-            }(s, l, u), a < 0) {
-                x(s, l, 0), M(s, 0, o, 0);
-                var h = 0, p = S(s);
-                for (x(s, l, 0), a = 1; a < 8; ++a) {
-                    x(s, l, a), M(s, 0, o, a);
-                    var d = S(s);
-                    p > d && (p = d, h = a), x(s, l, a)
-                }
-                a = h
-            }
-            return x(s, l, a), M(s, 0, o, a), s
-        }, k = {
-            generate: function (t, o) {
-                var a = {numeric: 1, alphanumeric: 2, octet: 4}, i = {L: 1, M: 0, Q: 3, H: 2},
-                    u = (o = o || {}).version || -1, f = i[(o.ecclevel || "L").toUpperCase()],
-                    c = o.mode ? a[o.mode.toLowerCase()] : -1, s = "mask" in o ? o.mask : -1;
-                if (c < 0) c = "string" == typeof t ? t.match(e) ? 1 : t.match(n) ? 2 : 4 : 4; else if (1 != c && 2 != c && 4 != c) throw"invalid or unsupported mode";
-                if (null === (t = function (t, n) {
-                    switch (t) {
-                        case 1:
-                            return n.match(e) ? n : null;
-                        case 2:
-                            return n.match(r) ? n.toUpperCase() : null;
-                        case 4:
-                            if ("string" == typeof n) {
-                                for (var o = [], a = 0; a < n.length; ++a) {
-                                    var i = n.charCodeAt(a);
-                                    i < 128 ? o.push(i) : i < 2048 ? o.push(192 | i >> 6, 128 | 63 & i) : i < 65536 ? o.push(224 | i >> 12, 128 | i >> 6 & 63, 128 | 63 & i) : o.push(240 | i >> 18, 128 | i >> 12 & 63, 128 | i >> 6 & 63, 128 | 63 & i)
-                                }
-                                return o
-                            }
-                            return n
-                    }
-                }(c, t))) throw"invalid data format";
-                if (f < 0 || f > 3) throw"invalid ECC level";
-                if (u < 0) {
-                    for (u = 1; u <= 40 && !(t.length <= b(u, c, f)); ++u) ;
-                    if (u > 40) throw"too large data"
-                } else if (u < 1 || u > 40) throw"invalid version";
-                if (-1 != s && (s < 0 || s > 8)) throw"invalid mask";
-                return P(t, u, c, f, s)
-            }, generateHTML: function (t, e) {
-                e = e || {};
-                for (var r = k.generate(t, e), n = Math.max(e.modulesize || 5, .5), o = Math.max(null !== e.margin ? e.margin : 4, 0), a = document.createElement("div"), i = r.length, u = ['<table border="0" cellspacing="0" cellpadding="0" style="border:' + n * o + 'px solid #fff;background:#fff">'], f = 0; f < i; ++f) {
-                    u.push("<tr>");
-                    for (var c = 0; c < i; ++c) u.push('<td style="width:' + n + "px;height:" + n + "px" + (r[f][c] ? ";background:#000" : "") + '"></td>');
-                    u.push("</tr>")
-                }
-                return a.className = "qrcode", a.innerHTML = u.join("") + "</table>", a
-            }, generateSVG: function (t, e) {
-                e = e || {};
-                var r = k.generate(t, e), n = r.length, o = Math.max(e.modulesize || 5, .5),
-                    a = Math.max(null !== e.margin ? e.margin : 4, 0), i = o * (n + 2 * a),
-                    u = ' class= "fg" width="' + o + '" height="' + o + '"/>',
-                    f = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                f.setAttribute("viewBox", "0 0 " + i + " " + i), f.setAttribute("style", "shape-rendering:crispEdges"), e.modulesize && (f.setAttribute("width", i), f.setAttribute("height", i));
-                for (var c = ["<style scoped>.bg{fill:#FFF}.fg{fill:#000}</style>", '<rect class="bg" x="0" y="0"', 'width="' + i + '" height="' + i + '"/>'], s = a * o, l = 0; l < n; ++l) {
-                    for (var h = a * o, p = 0; p < n; ++p) r[l][p] && c.push('<rect x="' + h + '" y="' + s + '"', u), h += o;
-                    s += o
-                }
-                return f.innerHTML = c.join(""), f
-            }, generatePNG: function (t, e) {
-                e = e || {};
-                var r, n = k.generate(t, e), o = Math.max(e.modulesize || 5, .5),
-                    a = Math.max(null !== e.margin ? e.margin : 4, 0), i = n.length, u = o * (i + 2 * a),
-                    f = document.createElement("canvas");
-                if (f.width = f.height = u, !(r = f.getContext("2d"))) throw"canvas support is needed for PNG output";
-                r.fillStyle = "#fff", r.fillRect(0, 0, u, u), r.fillStyle = "#000";
-                for (var c = 0; c < i; ++c) for (var s = 0; s < i; ++s) n[c][s] && r.fillRect(o * (a + s), o * (a + c), o, o);
-                return f.toDataURL()
-            }
-        };
-        return k
-    }) ? n.apply(e, o) : n) || (t.exports = a)
-}, function (t, e, r) {
-    "use strict";
-    r.r(e);
-    var n = r(0), o = r.n(n);
-
-    function a(t) {
-        return (a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (t) {
-            return typeof t
-        } : function (t) {
-            return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t
-        })(t)
-    }
-
-    function i(t, e) {
-        for (var r = 0; r < e.length; r++) {
-            var n = e[r];
-            n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(t, n.key, n)
-        }
-    }
-
-    function u(t) {
-        if (void 0 === t) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return t
-    }
-
-    function f(t) {
-        var e = "function" == typeof Map ? new Map : void 0;
-        return (f = function (t) {
-            if (null === t || (r = t, -1 === Function.toString.call(r).indexOf("[native code]"))) return t;
-            var r;
-            if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function");
-            if (void 0 !== e) {
-                if (e.has(t)) return e.get(t);
-                e.set(t, n)
-            }
-
-            function n() {
-                return c(t, arguments, l(this).constructor)
-            }
-
-            return n.prototype = Object.create(t.prototype, {
-                constructor: {
-                    value: n,
-                    enumerable: !1,
-                    writable: !0,
-                    configurable: !0
-                }
-            }), s(n, t)
-        })(t)
-    }
-
-    function c(t, e, r) {
-        return (c = function () {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Date.prototype.toString.call(Reflect.construct(Date, [], function () {
-                })), !0
-            } catch (t) {
-                return !1
-            }
-        }() ? Reflect.construct : function (t, e, r) {
-            var n = [null];
-            n.push.apply(n, e);
-            var o = new (Function.bind.apply(t, n));
-            return r && s(o, r.prototype), o
-        }).apply(null, arguments)
-    }
-
-    function s(t, e) {
-        return (s = Object.setPrototypeOf || function (t, e) {
-            return t.__proto__ = e, t
-        })(t, e)
-    }
-
-    function l(t) {
-        return (l = Object.setPrototypeOf ? Object.getPrototypeOf : function (t) {
-            return t.__proto__ || Object.getPrototypeOf(t)
-        })(t)
-    }
-
-    var h = function (t) {
-        function e() {
-            var t, r, n;
-            return function (t, e) {
-                if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function")
-            }(this, e), r = this, (t = !(n = l(e).call(this)) || "object" !== a(n) && "function" != typeof n ? u(r) : n)._defineProperty = t._defineProperty.bind(u(t)), t.attachShadow({mode: "open"}), Object.keys(e.defaultAttributes).map(t._defineProperty), t
-        }
-
-        var r, n, c;
-        return function (t, e) {
-            if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
-            t.prototype = Object.create(e && e.prototype, {
-                constructor: {
-                    value: t,
-                    writable: !0,
-                    configurable: !0
-                }
-            }), e && s(t, e)
-        }(e, f(HTMLElement)), r = e, c = [{
-            key: "defaultAttributes", get: function () {
-                return {data: null, format: "png", modulesize: 5, margin: 4}
-            }
-        }, {
-            key: "observedAttributes", get: function () {
-                return Object.keys(e.defaultAttributes)
-            }
-        }], (n = [{
-            key: "attributeChangedCallback", value: function (t, e, r) {
-                var n = this[t + "Changed"];
-                n && "function" == typeof n && n.call(this, e, r), this.generate()
-            }
-        }, {
-            key: "_defineProperty", value: function (t) {
-                var r = this;
-                Object.defineProperty(this, t, {
-                    get: function () {
-                        var n = r.getAttribute(t);
-                        return null === n ? e.defaultAttributes[t] : n
-                    }, set: function (e) {
-                        r.setAttribute(t, e)
-                    }
-                })
-            }
-        }, {
-            key: "getOptions", value: function () {
-                var t = this.modulesize, e = this.margin;
-                return {modulesize: null !== t ? parseInt(t) : t, margin: null !== e ? parseInt(e) : e}
-            }
-        }, {
-            key: "generate", value: function () {
-                null !== this.data ? "png" === this.format ? this.generatePNG() : "html" === this.format ? this.generateHTML() : "svg" === this.format ? this.generateSVG() : this.shadowRoot.innerHTML = "<div>qr-code: " + this.format + " not supported!</div>" : this.shadowRoot.innerHTML = "<div>qr-code: no data!</div>"
-            }
-        }, {
-            key: "generatePNG", value: function () {
-                try {
-                    var t = document.createElement("img");
-                    t.src = o.a.generatePNG(this.data, this.getOptions()), this.clear(), this.shadowRoot.appendChild(t)
-                } catch (t) {
-                    this.shadowRoot.innerHTML = "<div>qr-code: no canvas support!</div>"
-                }
-            }
-        }, {
-            key: "generateHTML", value: function () {
-                var t = o.a.generateHTML(this.data, this.getOptions());
-                this.clear(), this.shadowRoot.appendChild(t)
-            }
-        }, {
-            key: "generateSVG", value: function () {
-                var t = o.a.generateSVG(this.data, this.getOptions());
-                this.clear(), this.shadowRoot.appendChild(t)
-            }
-        }, {
-            key: "clear", value: function () {
-                for (; this.shadowRoot.lastChild;) this.shadowRoot.removeChild(this.shadowRoot.lastChild)
-            }
-        }]) && i(r.prototype, n), c && i(r, c), e
-    }();
-    var customElementRegistry = window.customElements;
-    customElementRegistry.define("qr-code", h)
-}]);
-]]]]><![CDATA[></script>
-]]></Data>
-</XData>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.D3.index">
-<Super>%RegisteredObject</Super>
-<TimeCreated>65239,2067.874948</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "D3",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      } 
-      if DrawClass'=0{
-	         If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-		        d $zObjClassMethod(ClassName,"RegisterClass")
-		     }
-      }  
-    }
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -3026,28 +1702,8 @@ static getobservedAttributes() {        return ['value'];    }</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+     d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -3800,7 +2456,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    d ..GetGroupArr(.htmlElements,DrawClass, FilterJsonTree)
+    d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -4051,758 +2708,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Button">
-<Description>
-d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65237,3246.491522</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Button</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>Button</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/button.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{ "test1":"3333","test2":{"type":"string","value":""}}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Canvas">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,77902.32698</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Canvas</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>Canvas</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/canvas.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.DataList">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,27261.832275</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>DataList</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>DataList</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/datalist.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.IFrame">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,78071.334072</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>IFrame</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>IFrame</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/iframe.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Image">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,78014.354762</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Image</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>img</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/images.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{ "width":"25px","height":"25px"}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Input">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,1519.361484</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Input</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>INPUT</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/input.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>http://htmlbook.ru/html/input</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|textContent|nodeValue|nextSibling|previousSibling|lastChild|firstChild|parentElement|parentNode|isConnected|baseURI|nodeName|nodeType|part|childElementCount|lastElementChild|firstElementChild|nextElementSibling|previousElementSibling|clientHeight|clientWidth|clientLeft|clientTop|scrollHeight|scrollWidth|scrollLeft|scrollTop|assignedSlot|innerHTML|outerHTML|shadowRoot|slot|tagName|localName|prefix|namespaceURI|nonce|outerText|innerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|offsetParent|inputMode|isContentEditable|contentEditable|autocapitalize|spellcheck|tabIndex|dir|translate|title|webkitEntries|incremental|webkitdirectory|useMap|selectionDirection|selectionEnd|selectionStart|validationMessage|defaultValue|step|dirName|defaultChecked|autocomplete|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{ "type":{"type":"|range|button|checkbox|file|image|password|radio|reset|submit|text","value":"text"}}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Label">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,27783.548382</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Label</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>Label</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/label.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|textContent|nodeValue|nextSibling|previousSibling|lastChild|firstChild|parentElement|parentNode|isConnected|baseURI|nodeName|nodeType|part|childElementCount|lastElementChild|firstElementChild|nextElementSibling|previousElementSibling|clientHeight|clientWidth|clientLeft|clientTop|scrollHeight|scrollWidth|scrollLeft|scrollTop|assignedSlot|innerHTML|outerHTML|shadowRoot|slot|tagName|localName|prefix|namespaceURI|nonce|outerText|innerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|offsetParent|inputMode|isContentEditable|contentEditable|autocapitalize|spellcheck|tabIndex|dir|translate|title|webkitEntries|incremental|webkitdirectory|useMap|selectionDirection|selectionEnd|selectionStart|validationMessage|defaultValue|step|dirName|defaultChecked|autocomplete|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Link">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65239,32947.753201</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Link</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>LINK</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/link.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="UrlHelp">
-<Default>http://htmlbook.ru/html/link</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|name|classList|className|id|innerText|draggable|hidden|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{"sizes":"","rel":{"type":"|stylesheet|alternate|import|icon","value":""},"media":{"type":"all|braille|handheld|print|screen|speech|projection|tty|tv","value":""}}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Option">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,27176.593262</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Option</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>Option</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/option.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.ProgressBar">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,27978.990803</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>ProgressBar</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>progress</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/progressbar.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Script">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65239,32279.695319</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Script</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>script</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/javascript.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.Select">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,27134.236531</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Select</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>Select</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/select.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.TextArea">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65238,27704.330891</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>TextArea</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>TEXTAREA</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/textarea.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|textContent|nodeValue|nextSibling|previousSibling|lastChild|firstChild|parentElement|parentNode|isConnected|baseURI|nodeName|nodeType|part|childElementCount|lastElementChild|firstElementChild|nextElementSibling|previousElementSibling|clientHeight|clientWidth|clientLeft|clientTop|scrollHeight|scrollWidth|scrollLeft|scrollTop|assignedSlot|innerHTML|outerHTML|shadowRoot|slot|tagName|localName|prefix|namespaceURI|nonce|outerText|innerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|offsetParent|inputMode|isContentEditable|contentEditable|autocapitalize|spellcheck|tabIndex|dir|translate|title|webkitEntries|incremental|webkitdirectory|useMap|selectionDirection|selectionEnd|selectionStart|validationMessage|defaultValue|step|dirName|defaultChecked|autocomplete|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.HTML.index">
-<Super>%RegisteredObject</Super>
-<TimeCreated>65236,85950.187919</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "HTML",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -5105,28 +3012,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+   // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -5541,124 +3428,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.Multimedia.Applet">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65241,85757.328111</TimeCreated>
-
-<Parameter name="ObjectType">
-</Parameter>
-
-<Parameter name="text">
-<Default>Applet</Default>
-</Parameter>
-
-<Parameter name="TagName">
-<Default>applet</Default>
-</Parameter>
-
-<Parameter name="icon">
-<Default>img/component/applet.png</Default>
-</Parameter>
-
-<Parameter name="ContentText">
-<Default>false</Default>
-</Parameter>
-
-<Parameter name="VisualElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="HtmlElement">
-<Default>true</Default>
-</Parameter>
-
-<Parameter name="AttributesSkip">
-<Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
-</Parameter>
-
-<Property name="AttributesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="StylesHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-
-<Property name="EventsHtml">
-<Type>%Library.DynamicObject</Type>
-<InitialExpression>{}</InitialExpression>
-</Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.Multimedia.index">
-<Super>%RegisteredObject</Super>
-<TimeCreated>65241,83627.275335</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Multimedia",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -5961,28 +3732,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -6229,28 +3980,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -6385,28 +4116,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -6989,28 +4700,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -9721,28 +7412,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
         "children": [
       ]
     }
-    s arr=##class(%Library.DynamicArray).%New()
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -9750,6 +7421,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 
 
 <Class name="%ZWebDesigner.Component.index">
+<Description>
+ s obj=##class(%ZWebDesigner.Component.CacheSrverPage.CSPmethod).GetJson()   w obj.%ToJSON()</Description>
 <Super>%CSP.Page</Super>
 <TimeCreated>65237,1052.11404</TimeCreated>
 
@@ -9772,31 +7445,59 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
     s arr=##class(%Library.DynamicArray).%New()
     s class=##this
     s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      continue:'$p(class,".",$l(class,"."))="index"
-      If $System.CLS.IsMthd(ClassName,"GetGroup"){
-	     s html=$zObjClassMethod(ClassName,"GetGroup",DrawClass,FilterJsonTree)
-         d arr.%Push(html)
-	    //s html=##class(%ZWebDesigner.Component.HTML.index).GetGroup()
-	    //d arr.%Push(html)
-      }
+    if FilterJsonTree="" {
+	    s ClassName=""
+	    for {
+	      s ClassName=$o(^oddDEF(ClassName))
+	      q:ClassName=""
+	      continue:$l(ClassName,classPac)=1
+	      continue:'$p(class,".",$l(class,"."))="index"
+	      If $System.CLS.IsMthd(ClassName,"GetGroup"){
+		     s html=$zObjClassMethod(ClassName,"GetGroup",DrawClass)
+	         d arr.%Push(html)
+		     // s html=##class(%ZWebDesigner.Component.HTML.index).GetGroup()
+		     // d arr.%Push(html)
+	      }
+	    }
+    }else{
+	  s arr= ..GetCostumElementFiltr(arr,classPac,FilterJsonTree)   
     }
     if %request.Get("include","")'=""{	
     
     }
     if getJsonTree'=0{
-	  w !,"var componentArray=" d arr.%ToJSON()
+	  d arr.%ToJSON()
     }
 	Quit $$$OK
 ]]></Implementation>
 </Method>
 
-<Method name="GetCostumElement">
+<Method name="GetCostumElementFiltr">
 <ClassMethod>1</ClassMethod>
+<FormalSpec>arr,classPac="",FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicArray</ReturnType>
+<Implementation><![CDATA[
+        s ClassName=""
+	    for {
+	      s ClassName=$o(^oddDEF(ClassName))
+	      q:ClassName=""
+	      continue:$l(ClassName,classPac)=1
+	      continue:$p(ClassName,".",$l(ClassName,"."))="index"
+	      If $System.CLS.IsMthd(ClassName,"GetJson") {
+		     if '$d(^oddDEF(ClassName,"p")) continue
+		     if '$d(^oddDEF(ClassName,"p","text",22)) continue
+		     if '$d(^oddDEF(ClassName,"p","TagName",22)) continue
+		     s add=0 
+		     if $l(^oddDEF(ClassName,"p","text",22),FilterJsonTree)=2  s add=1 
+		     if $l(^oddDEF(ClassName,"p","TagName",22),FilterJsonTree)=2  s add=1 
+		     if add=1 {
+               s obj=$zObjClassMethod(ClassName,"GetJson")
+               d arr.%Push(obj)
+		     }
+          }
+	    }
+	    q arr
+]]></Implementation>
 </Method>
 
 <Method name="GetJson">
@@ -9806,6 +7507,7 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Implementation><![CDATA[
 	s ClassName=##this
 	#dim Element as %Library.DynamicObject=##class(%Library.DynamicObject).%New()
+	if '$d(^oddDEF(ClassName,"p")) q {}
 	if '$d(^oddDEF(ClassName,"p","text",22)) q {}
 	if '$d(^oddDEF(ClassName,"p","icon",22)) q {}
 	d Element.%Set("text",^oddDEF(ClassName,"p","text",22))
@@ -9860,6 +7562,9 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Implementation><![CDATA[
 	s ClassName=##this
 	s gl="^oddDEF("""_##this_""")"
+	q:'$d(@gl@("p"))
+	q:'$d(@gl@("p","TagName"))
+	
 	s TagName=@gl@("p","TagName",22)
 	s ObjectType=""
 	if $d(@gl@("p")),$d(@gl@("p","ObjectType")),$d(@gl@("p","ObjectType",22)){
@@ -9960,12 +7665,10 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 
 <Method name="GetGroupArr">
 <ClassMethod>1</ClassMethod>
-<FormalSpec>htmlElements,DrawClass=0,FilterJsonTree=""</FormalSpec>
+<FormalSpec>htmlElements="",DrawClass=0,class=""</FormalSpec>
 <ReturnType>%Library.DynamicObject</ReturnType>
 <Implementation><![CDATA[
-    s arr=##class(%Library.DynamicArray).%New()
     s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s class=##this
     s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
     s ClassName=""
     for {
@@ -9974,7 +7677,10 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
       continue:$l(ClassName,classPac)=1
       If $System.CLS.IsMthd(ClassName,"GetJson"){
          s obj=$zObjClassMethod(ClassName,"GetJson")
-         d htmlElements.children.%Push(obj)
+         if "{}"'=obj.%ToJSON(){
+         	s ^DEB(class,ClassName)=obj.%ToJSON()
+         	d htmlElements.children.%Push(obj)
+         }
       }  
       if DrawClass'=0{
         If $System.CLS.IsMthd(ClassName,"RegisterClass") {
@@ -9985,6 +7691,8 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
     }
     // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
     // d htmlElements.children.%Push(obj)
+    
+    q htmlElements
 ]]></Implementation>
 </Method>
 </Class>
@@ -10043,7 +7751,7 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
     }  
     
     if %request.Get("GetUrlPage","")'=""{
-       if $isobject(%request.Content){
+           if $isobject(%request.Content){
 	     for {
 		   q:%request.Content.AtEnd
 		   s html=%request.Content.Read(32000)
@@ -10121,7 +7829,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
    Set file=##class(%File).%New(FileName)
    Do file.Open("WSN")
    if $isobject(%request.Content){
-	  
 	   for {
 		  q:%request.Content.AtEnd
 		  s html=%request.Content.Read(32000)
@@ -10132,18 +7839,15 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 		  s html=$replace(html," style=""border: dotted;""","")
 		  s html=$replace(html," data--designer-three-id=""""","")
 		  s html=$replace(html," data--designer-three-id=""undefined""","")
-		  s html=$zcvt(html,"I","UTF8")
-		  //w !,%request.ConvertCharSet,!
-		  
+		  s html=$replace(html," name=""""","")
+		  s html=$replace(html," arguments=""""","")
+		  s html=$replace(html," returntype=""""","")
+		  s html=$replace(html," contenttext=""html""","")
+		  s html=$replace(html,"</",$c(13,10)_"</")
 	      Do file.Write(html)
 	   }	
-	   // %XML.TextReader
    }
-
-   
-   
    s file=""
-   w "NameSpace: "_$zu(5)
    d $system.CSP.LoadPage($lg($SYSTEM.CSP.FilenameToUrls(FileName),1),"ck-u")
    q
 ]]></Implementation>
@@ -10217,35 +7921,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
    q
 ]]></Implementation>
 </Method>
-
-<UDLText name="T">
-<Content><![CDATA[
-/*
-	   s xmlobj=%request.Content
-       s status=##class(%XML.TextReader).ParseStream(xmlobj,.reader)
-       if $$$ISERR(status) {do $System.Status.DisplayError(status) quit 1}
-       
-       While reader.Read() {
-	       zw reader
-          i (reader.NodeType="element") {
-            //читаем структуру XML потока (см. описание класса) 
-          }
-       }
-       /*
-		   s stream=##class(%GlobalCharacterStream).%New()
-		   d stream.%LocationSet(location)
-		   d stream.Clear()
-		 
-		   s writer=##class(%XML.Writer).%New()
-		   s writer.Charset="UTF-8"
-		   // d writer.OutputToStream(stream)
-		   d writer.OutputToFile(FileName)
-		   s writer.Indent=1
-		   d writer.Write(%request.Content.Read(32000))
-		   d writer.Tree("D:\AppServ\www\11111111\test2.xml")
-		  */
-]]></Content>
-</UDLText>
 </Class>
 
 
@@ -10279,8 +7954,14 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Description>
 Установка Контроля версия на все области имен</Description>
 <ClassMethod>1</ClassMethod>
+<FormalSpec>SetNameSpace=""</FormalSpec>
 <Implementation><![CDATA[
-
+	if SetNameSpace'=""{
+	  w !,SetNameSpace_":"
+      w ##class(%Studio.SourceControl.Interface).SourceControlClassSet(##this,SetNameSpace)
+      w !,"OK"
+	  q	
+	}
      For i=1:1:$ZU(90,0) Set nslist($ZU(90,2,0,i))=""
      Set nameSpace=""
      For {
@@ -10308,7 +7989,7 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
     }
     	
 	
-	if MenuName = "WebBuilder" {
+	 if MenuName = "WebBuilder" {
 		set DisplayName = "Cache Web Builder"
 		Set Enabled=1
 		quit $$$OK
@@ -10415,27 +8096,50 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Class name="%ZWebDesigner.project">
 <Description>
  d ##class(%ZWebDesigner.project).ExportProject("D:\Web.designer.xml")
- d ##class(%ZWebDesigner.project).LoadCSP("D:\Intersystems\Cache\CSP\sys\webdesigner\")</Description>
+ d ##class(%ZWebDesigner.project).LoadCSP("D:\Intersystems\Cache\CSP\sys\webdesigner\")
+ https://geocode-maps.yandex.ru/1.x/?geocode=Новоуральская 13/1</Description>
 <Super>%RegisteredObject</Super>
 <TimeCreated>65234,27274.678559</TimeCreated>
 
 <Method name="ExportProject">
 <Description>
- d ##class(%ZWebDesigner.project).ExportProject("D:\Web.designer.xml")</Description>
+ d ##class(%ZWebDesigner.project).ExportProject("D:\%ZWebDesigner.xml")
+ d ##class(%ZWebDesigner.project).ExportProject()</Description>
 <ClassMethod>1</ClassMethod>
-<FormalSpec>FileName="Web.designer.xml"</FormalSpec>
+<FormalSpec>FileName=""</FormalSpec>
 <Implementation><![CDATA[
+	if FileName =""{
+	  s FileName=$$GetFilename^%apiCSP("/csp/sys/WebDesigner/")_"/%ZWebDesigner.xml"
+	}
    k all                                                                                              
    s ClassName="" 
    f   s ClassName=$o(^oddDEF(ClassName))   q:ClassName=""    d  
    .   q:$l(ClassName,"%")=2                                   
-   .   q:$l(ClassName,"webdesigner.")=1                                   
-   .   s all(ClassName_".cls")=""               
+   .   q:$l(ClassName,"webdesigner.")=1     
+   .   q:$l(ClassName,"webdesigner.project1.exe")=2      
+   .   q:$l(ClassName,"webdesigner.installproject.exe")=2      
+   .   q:$l(ClassName,"webdesigner.servercontroller.php")=2      
+   .   s all(ClassName_".cls")=""     
    ; k ^rMAP(classname)
    ; k ^rOBJ(classname)
    s all("%ZWebDesigner.SourceControll.cls")=""     
    s all("%ZWebDesigner.project.cls")=""     
    s all("%ZWebDesigner.Controll.cls")=""     
+    /// получаем список CSP файлов
+    s gl=..GetCSPFiles()
+    s file=""
+    for {
+  	   s file=$o(@gl@(file))
+  	   q:file=""
+  	   s url=$lg(@gl@(file),1)
+  	   s urlTxt=$zcvt(url,"L")
+  	   continue:$l(url,"%ZWebDesigner.xml")=2
+  	   continue:$l(urlTxt,".git")=2
+       continue:$l(urlTxt,"installcacheclass")=2
+       continue:$l(urlTxt,"installproject.exe")=2
+       continue:$l(urlTxt,"project1.exe")=2
+  	   s all(url)=""
+    }
    d $system.OBJ.Export(.all,FileName,,,"CP1251")
    q
 ]]></Implementation>
@@ -10460,8 +8164,7 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 	 s dir=path
  }
  d ..GetDirCSP(dir,url)
- 
- /// Удалить систему слежения за рабочей станцией
+ // Удалить систему слежения за рабочей станцией
  // zw ^oddDEF("FT.FeatureGetter")
  // k ^ISC.FTSnapshot
  // ^CacheTempClassTree("%SYS","FT.FeatureGetter","DeepSee.FeatureGetter")
@@ -10473,8 +8176,51 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
  // ^CacheTempClassTree("%SYS","FT.FeatureGetter","FT.IdentifyingInfoGetter")
  // ^CacheTempClassTree("%SYS","FT.FeatureGetter","FT.EncDBGetter")
  // ^CacheTempClassTree("%SYS","FT.FeatureGetter","FT.EMSGetter")
- 
  q ""
+]]></Implementation>
+</Method>
+
+<Method name="GetCSPFiles">
+<Description>
+ s gl=##class(Demo.ExportAllClass).GetCSPFiles()</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>gl="mtempGetCSPFiles("_$JOB_")"</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+ #define CSPAppDirDoesNotExist 5956
+ s num=0
+ s url="/csp/sys/WebDesigner" 
+ i $e(url,$L(url))="/"!($e(url,$L(url))="\") s url=$e(url,1,$l(url)-1)
+ s recurse=1
+ s dir=##class(%File).NormalizeDirectory($$GetFilename^%apiCSP(url))
+ d ..GetDirCspExport(gl,dir)
+ q gl
+]]></Implementation>
+</Method>
+
+<Method name="GetDirCspExport">
+<Description>
+Метод создает глобал сосписком файлов в каталоге ( и подкаталогах)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>gl="mtempGetCSPApplications("_$JOB_")",Dir=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+ s filter=""
+ s rs = ##class(%Library.ResultSet).%New("%Library.File:FileSet")
+ s sc = rs.Execute(Dir,filter,"Name")
+ k files
+ while rs.Next()
+ {
+     s name = rs.Get("Name")
+     if (rs.Get("Type") = "D")
+     {
+        d ..GetDirCspExport(gl,name)
+     }else{
+        if (($l(name,".git")=1)&&($l(name,"%ZWebDesigner.xml")=1)){
+          s @gl@(name)=$SYSTEM.CSP.FilenameToUrls(name)
+        }
+     }
+  }
 ]]></Implementation>
 </Method>
 
@@ -10530,9 +8276,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
           s classname=$replace(classname,"-",".")
           s classname=$replace(classname,"_",".")
           s ClasNameDst=""
-          if $l($zcvt(name,"l"),"%zwebdesigner.pkg")=2 continue 
-          if $l($zcvt(name,"l"),"%zwebdesigner.xml")=2 continue 
-          if $l($zcvt(name,"l"),"installwebdesigner.exe")=2 continue 
 	      // если имя пакета начинается с цифры, тогда добавляем к имени пакета букву "n"
 	      for ind=1:1:$l(classname,"."){
 		    s:ind'=1 ClasNameDst=ClasNameDst_"."
@@ -10548,7 +8291,7 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 	      }elseif $l("|cls|mac|xml", exec)>1 {
 		     d $SYSTEM.OBJ.Load(name,"ck-u")
 	      }else{
-		     ; d ..loadBin(name,classname,$lg($SYSTEM.CSP.FilenameToUrls(name),1))
+		     d ..loadBin(name,classname,$lg($SYSTEM.CSP.FilenameToUrls(name),1))
 	      }
      }
   }

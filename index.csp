@@ -1003,6 +1003,8 @@
         }
 
         var OpenInfo = function (Url, title) {
+            $("#InfoArea").css("background-color", "rgb(228,233,228)");
+            $("#InfoArea").parent().css("background-color", "rgb(228,233,228)");
             var xhr = new XMLHttpRequest();
             xhr.open('GET', Url, false);
             xhr.send();
@@ -1011,6 +1013,7 @@
             } else {
                 $("#InfoArea").html(xhr.responseText);
             }
+            
             $("#InfoBox").dialog(
                 {
                     title: title
@@ -1268,7 +1271,7 @@
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropbtn">Help</a>
                 <div class="dropdown-content">
-                    <a href="#" onclick="OpenInfo('about.txt');">About</a>
+                    <a href="#" onclick="OpenInfo('about.txt?test=#($h)#');">About</a>
                 </div>
             </li>
 

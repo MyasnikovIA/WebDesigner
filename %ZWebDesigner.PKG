@@ -112,6 +112,34 @@
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.AudioAndVideo.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,504.747894</TimeCreated>
+
+<Parameter name="UrlHelp">
+<Default>https://webref.ru/html/type/video</Default>
+</Parameter>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Audio and Video",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.AudioAndVideo.Source">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,716.516249</TimeCreated>
@@ -277,34 +305,6 @@
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.AudioAndVideo.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,504.747894</TimeCreated>
-
-<Parameter name="UrlHelp">
-<Default>https://webref.ru/html/type/video</Default>
-</Parameter>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Audio and Video",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
 </Class>
 
 
@@ -700,7 +700,7 @@
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPserver">
+<Class name="%ZWebDesigner.Component.CacheSrverPage.CSPServer">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,1501.451149</TimeCreated>
 
@@ -935,6 +935,62 @@ textContent</Description>
 
 <Parameter name="AttributesSkip">
 <Default>|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|innerHTML|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|textContent|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.Document.Body">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,2060.080102</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>Body</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>body</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/body.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>true</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>true</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>true</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://webref.ru/html/body</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Default>|aLink|vLink|textContent|innerText|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|</Default>
 </Parameter>
 
 <Property name="AttributesHtml">
@@ -1231,6 +1287,90 @@ textContent</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.Document.Html">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,2060.080102</TimeCreated>
+
+<Parameter name="ObjectType">
+</Parameter>
+
+<Parameter name="text">
+<Default>Html</Default>
+</Parameter>
+
+<Parameter name="TagName">
+<Default>html</Default>
+</Parameter>
+
+<Parameter name="icon">
+<Default>img/component/html.png</Default>
+</Parameter>
+
+<Parameter name="ContentText">
+<Default>true</Default>
+</Parameter>
+
+<Parameter name="VisualElement">
+<Default>true</Default>
+</Parameter>
+
+<Parameter name="HtmlElement">
+<Default>true</Default>
+</Parameter>
+
+<Parameter name="UrlHelp">
+<Default>https://webref.ru/html/body</Default>
+</Parameter>
+
+<Parameter name="AttributesSkip">
+<Default>|aLink|vLink|textContent|innerText|nodeValue|isConnected|baseURI|nodeName|nodeType|part|childElementCount|previousElementSibling|outerHTML|shadowRoot|tagName|localName|namespaceURI|outerText|offsetHeight|offsetWidth|offsetLeft|offsetTop|isContentEditable|contentEditable|accessKey|tabIndex|translate|name|willValidate|lang|autocapitalize|scrollLeft|scrollWidth|scrollHeight|formAction|title|dir|spellcheck|inputMode|offsetParent|nonce|prefix|slot|assignedSlot|scrollTop|clientTop|clientLeft|clientWidth|clientHeight|nextElementSibling|firstElementChild|lastElementChild|parentNode|parentElement|firstChild|lastChild|previousSibling|nextSibling|</Default>
+</Parameter>
+
+<Property name="AttributesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="StylesHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+
+<Property name="EventsHtml">
+<Type>%Library.DynamicObject</Type>
+<InitialExpression>{}</InitialExpression>
+</Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.Document.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,1039.394116</TimeCreated>
+
+<Parameter name="UrlHelp">
+<Default>https://webref.ru/html/type/video</Default>
+</Parameter>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Document",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+     d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
 </Class>
 
 
@@ -1682,34 +1822,6 @@ textContent</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.Document.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,1039.394116</TimeCreated>
-
-<Parameter name="UrlHelp">
-<Default>https://webref.ru/html/type/video</Default>
-</Parameter>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Document",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-     d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
 <Class name="%ZWebDesigner.Component.Forms.Button">
 <Description>
 d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
@@ -1933,6 +2045,34 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.Forms.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,61218.789483</TimeCreated>
+
+<Parameter name="UrlHelp">
+<Default>https://webref.ru/html/type/form</Default>
+</Parameter>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Forms",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
 </Class>
 
 
@@ -2436,34 +2576,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.Forms.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,61218.789483</TimeCreated>
-
-<Parameter name="UrlHelp">
-<Default>https://webref.ru/html/type/form</Default>
-</Parameter>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Forms",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
 <Class name="%ZWebDesigner.Component.Frame.Frame">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,64221.564895</TimeCreated>
@@ -2632,6 +2744,34 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.Frame.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,63527.079807</TimeCreated>
+
+<Parameter name="UrlHelp">
+<Default>https://webref.ru/html/type/form</Default>
+</Parameter>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Frame",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.Frame.NoFrames">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,64100.174671</TimeCreated>
@@ -2685,34 +2825,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.Frame.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,63527.079807</TimeCreated>
-
-<Parameter name="UrlHelp">
-<Default>https://webref.ru/html/type/form</Default>
-</Parameter>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Frame",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
 </Class>
 
 
@@ -2884,6 +2996,30 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.Images.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,2151.233968</TimeCreated>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Images",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+   // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.Images.Map">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,2389.342813</TimeCreated>
@@ -2996,24 +3132,278 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.Images.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,2151.233968</TimeCreated>
+<Class name="%ZWebDesigner.Component.index">
+<Description>
+ s obj=##class(%ZWebDesigner.Component.CacheSrverPage.CSPmethod).GetJson()   w obj.%ToJSON()</Description>
+<Super>%CSP.Page</Super>
+<TimeCreated>65237,1052.11404</TimeCreated>
 
-<Method name="GetGroup">
+<Method name="OnPreHTTP">
 <ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+    Do %response.SetHeader("Content-Type","application/javascript")   
+    q 1
+]]></Implementation>
+</Method>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	s DrawClass= %request.Get("DrawClass",1)
+	s getJsonTree= %request.Get("getJsonTree",0)
+	s FilterJsonTree= %request.Get("FilterJsonTree","")
+    s arr=##class(%Library.DynamicArray).%New()
+    s class=##this
+    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
+    if FilterJsonTree="" {
+	    s ClassName=""
+	    for {
+	      s ClassName=$o(^oddDEF(ClassName))
+	      q:ClassName=""
+	      continue:$l(ClassName,classPac)=1
+	      continue:'$p(class,".",$l(class,"."))="index"
+	      If $System.CLS.IsMthd(ClassName,"GetGroup"){
+		     s html=$zObjClassMethod(ClassName,"GetGroup",DrawClass)
+	         d arr.%Push(html)
+		     // s html=##class(%ZWebDesigner.Component.HTML.index).GetGroup()
+		     // d arr.%Push(html)
+	      }
+	    }
+    }else{
+	  s arr= ..GetCostumElementFiltr(arr,classPac,FilterJsonTree)   
+    }
+    if %request.Get("include","")'=""{	
+    
+    }
+    if getJsonTree'=0{
+	  d arr.%ToJSON()
+    }
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetCostumElementFiltr">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>arr,classPac="",FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicArray</ReturnType>
+<Implementation><![CDATA[
+        s ClassName=""
+	    for {
+	      s ClassName=$o(^oddDEF(ClassName))
+	      q:ClassName=""
+	      continue:$l(ClassName,classPac)=1
+	      continue:$p(ClassName,".",$l(ClassName,"."))="index"
+	      If $System.CLS.IsMthd(ClassName,"GetJson") {
+		     if '$d(^oddDEF(ClassName,"p")) continue
+		     if '$d(^oddDEF(ClassName,"p","text",22)) continue
+		     if '$d(^oddDEF(ClassName,"p","TagName",22)) continue
+		     s add=0 
+		     if $l(^oddDEF(ClassName,"p","text",22),FilterJsonTree)=2  s add=1 
+		     if $l(^oddDEF(ClassName,"p","TagName",22),FilterJsonTree)=2  s add=1 
+		     if add=1 {
+               s obj=$zObjClassMethod(ClassName,"GetJson")
+               d arr.%Push(obj)
+		     }
+          }
+	    }
+	    q arr
+]]></Implementation>
+</Method>
+
+<Method name="GetJson">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0</FormalSpec>
 <ReturnType>%Library.DynamicObject</ReturnType>
 <Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Images",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
+	s ClassName=##this
+	#dim Element as %Library.DynamicObject=##class(%Library.DynamicObject).%New()
+	if '$d(^oddDEF(ClassName,"p")) q {}
+	if '$d(^oddDEF(ClassName,"p","text",22)) q {}
+	if '$d(^oddDEF(ClassName,"p","icon",22)) q {}
+	d Element.%Set("text",^oddDEF(ClassName,"p","text",22))
+	d Element.%Set("icon",^oddDEF(ClassName,"p","icon",22))
+	d Element.%Set("classelement",ClassName)
+    s Element.ObjectElement =##class(%Library.DynamicObject).%New()
+    s atrName=""
+	for {
+	   s atrName=$o(^oddDEF(ClassName,"p",atrName))
+	   q:atrName=""
+	   s val=""
+	   if $d(^oddDEF(ClassName,"p",atrName,22))  s val=^oddDEF(ClassName,"p",atrName,22)
+	   d Element.ObjectElement.%Set(atrName,val)
+	}
+    s atrName=""
+	for {
+	   s atrName=$o(^oddDEF(ClassName,"a",atrName))
+	   q:atrName=""
+	   s val=""
+	   if $d(^oddDEF(ClassName,"a",atrName,31))  s val=^oddDEF(ClassName,"a",atrName,31)
+       if (   (atrName="AttributesHtml")
+            ||(atrName="StylesHtml")
+            ||(atrName="EventsHtml")
+        ){
+		   if $l(val)>0 {
+		      s valObj=..StrToObj(val)
+		      d Element.ObjectElement.%Set(atrName,valObj) 
+		      k valObj
+		   }
+		   continue
+	   }
+       d Element.ObjectElement.%Set(atrName,val)
+	}	
+	// w Element.%ToJSON()
+    // zw ^oddDEF(ClassName)
+	q Element
+]]></Implementation>
+</Method>
+
+<Method name="StrToObj">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val</FormalSpec>
+<ProcedureBlock>0</ProcedureBlock>
+<Implementation><![CDATA[
+	x " s Obj="_val
+	q Obj
+]]></Implementation>
+</Method>
+
+<Method name="RegisterClass">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s ClassName=##this
+	s gl="^oddDEF("""_##this_""")"
+	q:'$d(@gl@("p"))
+	q:'$d(@gl@("p","TagName"))
+	
+	s TagName=@gl@("p","TagName",22)
+	s ObjectType=""
+	if $d(@gl@("p")),$d(@gl@("p","ObjectType")),$d(@gl@("p","ObjectType",22)){
+	  s ObjectType=@gl@("p","ObjectType",22)	
+	}
+	if $l(ObjectType)=0 q
+    
+    	
+	w "/* "_##this_" */" 
+    // 
+    //  дописать механизм подключения библиотек (import) 
+    // if $d(@gl@("a","ImportLib")),$d(@gl@("a","ImportLib",31)){
+	//    w !,"/*"_@gl@("a","ImportLib",31)_"*/" 
+	//    s arr=##class(%Library.DynamicArray).%New()
+	//    d arr.%FromJSON(@gl@("a","ImportLib",31))
+	//    set iter = arr.%GetIterator()
+	//    while iter.%GetNext(.key , .value ) {
+	//       write !,"key = "_key_" , value = "_value,!
+	//    }
+    //    w !,"import '/modules/my-module.js';"
+    // }
+    
+    If $System.CLS.IsMthd(##this,"DrawXdata") {
+       w !,! 
+       d $zObjClassMethod(##this,"DrawXdata","initjs")
     }
-   // d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+	
+	if (ObjectType="HTMLElement"){
+		s jsClassName=$replace(TagName,"-","_")
+		w !,"/*"_ClassName_"*/"
+	    w !,"class "_jsClassName_" extends "_ObjectType_" { "
+	    // инициализируем атрибуты
+	    if $d(@gl@("a","AttributesHtml",31)),$l(@gl@("a","AttributesHtml",31))>0{
+	        ///
+	    }
+	    if $d(@gl@("m","constructor")){
+		   w !,"  constructor() {"
+		   s ind=""
+		   for {
+			 s ind=$o(@gl@("m","constructor",30,ind))
+			 q:ind=""   
+			 w !,@gl@("m","constructor",30,ind)
+		   } 
+		   w !,"  }"
+	    }
+	    if $d(@gl@("m","getobservedAttributes")){
+		   w !," static get observedAttributes() {"
+		   s ind=""
+		   for {
+			 s ind=$o(@gl@("m","getobservedAttributes",30,ind))
+			 q:ind=""   
+			 w !,@gl@("m","getobservedAttributes",30,ind)
+		   } 
+		   w !," }"
+	    }
+	    if $d(@gl@("m","attributeChangedCallback")){
+		   if $d(@gl@("m","attributeChangedCallback",27)){
+			  s args=@gl@("m","attributeChangedCallback",27)
+		   }else{
+			  s args="name,oldValue,newValue"
+		   }
+		   w !,"  attributeChangedCallback("_args_") {"
+		   s ind=""
+		   for {
+			 s ind=$o(@gl@("m","attributeChangedCallback",30,ind))
+			 q:ind=""   
+			 w !,@gl@("m","attributeChangedCallback",30,ind)
+		   } 
+		   w !," }"
+	    }
+		w !,"}"
+		w !,"customElements.define('"_TagName_"', "_jsClassName_");"
+	}
+]]></Implementation>
+</Method>
+
+<Method name="ExecFrag">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>SrcCode="",Beg="",End=""</FormalSpec>
+<Implementation><![CDATA[     q:SrcCode=""   q:Beg=""    q:End=""    for ExecFragInd=1:1:$l(SrcCode,End){  s tmp=$p(SrcCode,End,ExecFragInd)   s Html=$p(tmp,Beg,1)     s Code=$p(tmp,Beg,2)   w Html   TRY {     x Code    } CATCH ErrorHandle {    zw ErrorHandle  }    }
+]]></Implementation>
+</Method>
+
+<Method name="DrawXdata">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Name={##This_":XDataContet"}</FormalSpec>
+<Language>cache</Language>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+   if $l(Name,":")=1,$e(Name,1,2)'=".."{  s Name=".."_Name  }
+   if $e(Name,1,2)=".." {  s ClassName=##This,XdataName=$e(Name,3,$l(Name))
+   }else{                  s ClassName=$p(Name,":",1),XdataName=$p(Name,":",2)  }
+   s gl="^oddDEF("""_ClassName_""",""x"","""_XdataName_""",21)"  
+   q:'$d(@gl)
+   s FragOnPageInd=""  f {  s FragOnPageInd=$o(@gl@(FragOnPageInd))  q:FragOnPageInd=""  continue:FragOnPageInd=1  q:FragOnPageInd=@gl      d ..ExecFrag(@gl@(FragOnPageInd),"/*(",")*/")     w $c(13,10)  }
+]]></Implementation>
+</Method>
+
+<Method name="GetGroupArr">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>htmlElements="",DrawClass=0,class=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+    s htmlElements.children=##class(%Library.DynamicArray).%New()
+    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
+    s ClassName=""
+    for {
+      s ClassName=$o(^oddDEF(ClassName))
+      q:ClassName=""
+      continue:$l(ClassName,classPac)=1
+      If $System.CLS.IsMthd(ClassName,"GetJson"){
+         s obj=$zObjClassMethod(ClassName,"GetJson")
+         if "{}"'=obj.%ToJSON(){
+         	s ^DEB(class,ClassName)=obj.%ToJSON()
+         	d htmlElements.children.%Push(obj)
+         }
+      }  
+      if DrawClass'=0{
+        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
+           d $zObjClassMethod(ClassName,"RegisterClass")
+        }
+      }  
+
+    }
+    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
+    // d htmlElements.children.%Push(obj)
+    
     q htmlElements
 ]]></Implementation>
 </Method>
@@ -3244,6 +3634,30 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.Lists.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,65863.337349</TimeCreated>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Lists",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.Lists.Li">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,51947.806731</TimeCreated>
@@ -3412,30 +3826,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.Lists.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,65863.337349</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Lists",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
 <Class name="%ZWebDesigner.Component.Object.Applet">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,2628.402891</TimeCreated>
@@ -3545,6 +3935,30 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.Object.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,2519.133486</TimeCreated>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Object",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
 </Class>
 
 
@@ -3716,30 +4130,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.Object.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,2519.133486</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Object",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
 <Class name="%ZWebDesigner.Component.References.A">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,53448.402403</TimeCreated>
@@ -3908,6 +4298,30 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.References.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,52438.192342</TimeCreated>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Lists",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.References.Nav">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,52888.715216</TimeCreated>
@@ -3964,9 +4378,9 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.References.index">
+<Class name="%ZWebDesigner.Component.Scripts.index">
 <Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,52438.192342</TimeCreated>
+<TimeCreated>65242,2958.961821</TimeCreated>
 
 <Method name="GetGroup">
 <ClassMethod>1</ClassMethod>
@@ -3974,7 +4388,7 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <ReturnType>%Library.DynamicObject</ReturnType>
 <Implementation><![CDATA[
    #dim htmlElements as %Library.DynamicObject= {
-        "text": "Lists",
+        "text": "Scripts",
         "state": {"opened": false},
         "icon": "img/component/html.png",
         "children": [
@@ -4097,30 +4511,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.Scripts.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,2958.961821</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Scripts",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
 </Class>
 
 
@@ -4289,6 +4679,30 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
+</Class>
+
+
+<Class name="%ZWebDesigner.Component.Tables.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65242,53832.29917</TimeCreated>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Lists",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
 </Class>
 
 
@@ -4681,30 +5095,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 <Type>%Library.DynamicObject</Type>
 <InitialExpression>{}</InitialExpression>
 </Property>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.Tables.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65242,53832.29917</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Lists",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(.htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
 </Class>
 
 
@@ -6052,6 +6442,30 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
+<Class name="%ZWebDesigner.Component.Text.index">
+<Super>%ZWebDesigner.Component.index</Super>
+<TimeCreated>65241,85253.946707</TimeCreated>
+
+<Method name="GetGroup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
+<ReturnType>%Library.DynamicObject</ReturnType>
+<Implementation><![CDATA[
+   #dim htmlElements as %Library.DynamicObject= {
+        "text": "Text",
+        "state": {"opened": false},
+        "icon": "img/component/html.png",
+        "children": [
+      ]
+    }
+    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
+    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
+    q htmlElements
+]]></Implementation>
+</Method>
+</Class>
+
+
 <Class name="%ZWebDesigner.Component.Text.Ins">
 <Super>%ZWebDesigner.Component.index</Super>
 <TimeCreated>65242,58035.050515</TimeCreated>
@@ -7396,308 +7810,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
 </Class>
 
 
-<Class name="%ZWebDesigner.Component.Text.index">
-<Super>%ZWebDesigner.Component.index</Super>
-<TimeCreated>65241,85253.946707</TimeCreated>
-
-<Method name="GetGroup">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0,FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-   #dim htmlElements as %Library.DynamicObject= {
-        "text": "Text",
-        "state": {"opened": false},
-        "icon": "img/component/html.png",
-        "children": [
-      ]
-    }
-    // d htmlElements.%Set("UrlHelp",..#UrlHelp)
-    s htmlElements=##class(%ZWebDesigner.Component.index).GetGroupArr(htmlElements,DrawClass,##this)
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.Component.index">
-<Description>
- s obj=##class(%ZWebDesigner.Component.CacheSrverPage.CSPmethod).GetJson()   w obj.%ToJSON()</Description>
-<Super>%CSP.Page</Super>
-<TimeCreated>65237,1052.11404</TimeCreated>
-
-<Method name="OnPreHTTP">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Library.Boolean</ReturnType>
-<Implementation><![CDATA[
-    Do %response.SetHeader("Content-Type","application/javascript")   
-    q 1
-]]></Implementation>
-</Method>
-
-<Method name="OnPage">
-<ClassMethod>1</ClassMethod>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
-	s DrawClass= %request.Get("DrawClass",1)
-	s getJsonTree= %request.Get("getJsonTree",0)
-	s FilterJsonTree= %request.Get("FilterJsonTree","")
-    s arr=##class(%Library.DynamicArray).%New()
-    s class=##this
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    if FilterJsonTree="" {
-	    s ClassName=""
-	    for {
-	      s ClassName=$o(^oddDEF(ClassName))
-	      q:ClassName=""
-	      continue:$l(ClassName,classPac)=1
-	      continue:'$p(class,".",$l(class,"."))="index"
-	      If $System.CLS.IsMthd(ClassName,"GetGroup"){
-		     s html=$zObjClassMethod(ClassName,"GetGroup",DrawClass)
-	         d arr.%Push(html)
-		     // s html=##class(%ZWebDesigner.Component.HTML.index).GetGroup()
-		     // d arr.%Push(html)
-	      }
-	    }
-    }else{
-	  s arr= ..GetCostumElementFiltr(arr,classPac,FilterJsonTree)   
-    }
-    if %request.Get("include","")'=""{	
-    
-    }
-    if getJsonTree'=0{
-	  d arr.%ToJSON()
-    }
-	Quit $$$OK
-]]></Implementation>
-</Method>
-
-<Method name="GetCostumElementFiltr">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>arr,classPac="",FilterJsonTree=""</FormalSpec>
-<ReturnType>%Library.DynamicArray</ReturnType>
-<Implementation><![CDATA[
-        s ClassName=""
-	    for {
-	      s ClassName=$o(^oddDEF(ClassName))
-	      q:ClassName=""
-	      continue:$l(ClassName,classPac)=1
-	      continue:$p(ClassName,".",$l(ClassName,"."))="index"
-	      If $System.CLS.IsMthd(ClassName,"GetJson") {
-		     if '$d(^oddDEF(ClassName,"p")) continue
-		     if '$d(^oddDEF(ClassName,"p","text",22)) continue
-		     if '$d(^oddDEF(ClassName,"p","TagName",22)) continue
-		     s add=0 
-		     if $l(^oddDEF(ClassName,"p","text",22),FilterJsonTree)=2  s add=1 
-		     if $l(^oddDEF(ClassName,"p","TagName",22),FilterJsonTree)=2  s add=1 
-		     if add=1 {
-               s obj=$zObjClassMethod(ClassName,"GetJson")
-               d arr.%Push(obj)
-		     }
-          }
-	    }
-	    q arr
-]]></Implementation>
-</Method>
-
-<Method name="GetJson">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>DrawClass=0</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-	s ClassName=##this
-	#dim Element as %Library.DynamicObject=##class(%Library.DynamicObject).%New()
-	if '$d(^oddDEF(ClassName,"p")) q {}
-	if '$d(^oddDEF(ClassName,"p","text",22)) q {}
-	if '$d(^oddDEF(ClassName,"p","icon",22)) q {}
-	d Element.%Set("text",^oddDEF(ClassName,"p","text",22))
-	d Element.%Set("icon",^oddDEF(ClassName,"p","icon",22))
-	d Element.%Set("classelement",ClassName)
-    s Element.ObjectElement =##class(%Library.DynamicObject).%New()
-    s atrName=""
-	for {
-	   s atrName=$o(^oddDEF(ClassName,"p",atrName))
-	   q:atrName=""
-	   s val=""
-	   if $d(^oddDEF(ClassName,"p",atrName,22))  s val=^oddDEF(ClassName,"p",atrName,22)
-	   d Element.ObjectElement.%Set(atrName,val)
-	}
-    s atrName=""
-	for {
-	   s atrName=$o(^oddDEF(ClassName,"a",atrName))
-	   q:atrName=""
-	   s val=""
-	   if $d(^oddDEF(ClassName,"a",atrName,31))  s val=^oddDEF(ClassName,"a",atrName,31)
-       if (   (atrName="AttributesHtml")
-            ||(atrName="StylesHtml")
-            ||(atrName="EventsHtml")
-        ){
-		   if $l(val)>0 {
-		      s valObj=..StrToObj(val)
-		      d Element.ObjectElement.%Set(atrName,valObj) 
-		      k valObj
-		   }
-		   continue
-	   }
-       d Element.ObjectElement.%Set(atrName,val)
-	}	
-	// w Element.%ToJSON()
-    // zw ^oddDEF(ClassName)
-	q Element
-]]></Implementation>
-</Method>
-
-<Method name="StrToObj">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>val</FormalSpec>
-<ProcedureBlock>0</ProcedureBlock>
-<Implementation><![CDATA[
-	x " s Obj="_val
-	q Obj
-]]></Implementation>
-</Method>
-
-<Method name="RegisterClass">
-<ClassMethod>1</ClassMethod>
-<Implementation><![CDATA[
-	s ClassName=##this
-	s gl="^oddDEF("""_##this_""")"
-	q:'$d(@gl@("p"))
-	q:'$d(@gl@("p","TagName"))
-	
-	s TagName=@gl@("p","TagName",22)
-	s ObjectType=""
-	if $d(@gl@("p")),$d(@gl@("p","ObjectType")),$d(@gl@("p","ObjectType",22)){
-	  s ObjectType=@gl@("p","ObjectType",22)	
-	}
-	if $l(ObjectType)=0 q
-    
-    	
-	w "/* "_##this_" */" 
-    // 
-    //  дописать механизм подключения библиотек (import) 
-    // if $d(@gl@("a","ImportLib")),$d(@gl@("a","ImportLib",31)){
-	//    w !,"/*"_@gl@("a","ImportLib",31)_"*/" 
-	//    s arr=##class(%Library.DynamicArray).%New()
-	//    d arr.%FromJSON(@gl@("a","ImportLib",31))
-	//    set iter = arr.%GetIterator()
-	//    while iter.%GetNext(.key , .value ) {
-	//       write !,"key = "_key_" , value = "_value,!
-	//    }
-    //    w !,"import '/modules/my-module.js';"
-    // }
-    
-    If $System.CLS.IsMthd(##this,"DrawXdata") {
-       w !,! 
-       d $zObjClassMethod(##this,"DrawXdata","initjs")
-    }
-	
-	if (ObjectType="HTMLElement"){
-		s jsClassName=$replace(TagName,"-","_")
-		w !,"/*"_ClassName_"*/"
-	    w !,"class "_jsClassName_" extends "_ObjectType_" { "
-	    // инициализируем атрибуты
-	    if $d(@gl@("a","AttributesHtml",31)),$l(@gl@("a","AttributesHtml",31))>0{
-	        ///
-	    }
-	    if $d(@gl@("m","constructor")){
-		   w !,"  constructor() {"
-		   s ind=""
-		   for {
-			 s ind=$o(@gl@("m","constructor",30,ind))
-			 q:ind=""   
-			 w !,@gl@("m","constructor",30,ind)
-		   } 
-		   w !,"  }"
-	    }
-	    if $d(@gl@("m","getobservedAttributes")){
-		   w !," static get observedAttributes() {"
-		   s ind=""
-		   for {
-			 s ind=$o(@gl@("m","getobservedAttributes",30,ind))
-			 q:ind=""   
-			 w !,@gl@("m","getobservedAttributes",30,ind)
-		   } 
-		   w !," }"
-	    }
-	    if $d(@gl@("m","attributeChangedCallback")){
-		   if $d(@gl@("m","attributeChangedCallback",27)){
-			  s args=@gl@("m","attributeChangedCallback",27)
-		   }else{
-			  s args="name,oldValue,newValue"
-		   }
-		   w !,"  attributeChangedCallback("_args_") {"
-		   s ind=""
-		   for {
-			 s ind=$o(@gl@("m","attributeChangedCallback",30,ind))
-			 q:ind=""   
-			 w !,@gl@("m","attributeChangedCallback",30,ind)
-		   } 
-		   w !," }"
-	    }
-		w !,"}"
-		w !,"customElements.define('"_TagName_"', "_jsClassName_");"
-	}
-]]></Implementation>
-</Method>
-
-<Method name="ExecFrag">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>SrcCode="",Beg="",End=""</FormalSpec>
-<Implementation><![CDATA[     q:SrcCode=""   q:Beg=""    q:End=""    for ExecFragInd=1:1:$l(SrcCode,End){  s tmp=$p(SrcCode,End,ExecFragInd)   s Html=$p(tmp,Beg,1)     s Code=$p(tmp,Beg,2)   w Html   TRY {     x Code    } CATCH ErrorHandle {    zw ErrorHandle  }    }
-]]></Implementation>
-</Method>
-
-<Method name="DrawXdata">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>Name={##This_":XDataContet"}</FormalSpec>
-<Language>cache</Language>
-<ReturnType>%Library.Status</ReturnType>
-<Implementation><![CDATA[
-   if $l(Name,":")=1,$e(Name,1,2)'=".."{  s Name=".."_Name  }
-   if $e(Name,1,2)=".." {  s ClassName=##This,XdataName=$e(Name,3,$l(Name))
-   }else{                  s ClassName=$p(Name,":",1),XdataName=$p(Name,":",2)  }
-   s gl="^oddDEF("""_ClassName_""",""x"","""_XdataName_""",21)"  
-   q:'$d(@gl)
-   s FragOnPageInd=""  f {  s FragOnPageInd=$o(@gl@(FragOnPageInd))  q:FragOnPageInd=""  continue:FragOnPageInd=1  q:FragOnPageInd=@gl      d ..ExecFrag(@gl@(FragOnPageInd),"/*(",")*/")     w $c(13,10)  }
-]]></Implementation>
-</Method>
-
-<Method name="GetGroupArr">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>htmlElements="",DrawClass=0,class=""</FormalSpec>
-<ReturnType>%Library.DynamicObject</ReturnType>
-<Implementation><![CDATA[
-    s htmlElements.children=##class(%Library.DynamicArray).%New()
-    s classPac=$e(class,1,$l(class)-$l( $p(class,".",$l(class,"."))))
-    s ClassName=""
-    for {
-      s ClassName=$o(^oddDEF(ClassName))
-      q:ClassName=""
-      continue:$l(ClassName,classPac)=1
-      If $System.CLS.IsMthd(ClassName,"GetJson"){
-         s obj=$zObjClassMethod(ClassName,"GetJson")
-         if "{}"'=obj.%ToJSON(){
-         	s ^DEB(class,ClassName)=obj.%ToJSON()
-         	d htmlElements.children.%Push(obj)
-         }
-      }  
-      if DrawClass'=0{
-        If $System.CLS.IsMthd(ClassName,"RegisterClass") {
-           d $zObjClassMethod(ClassName,"RegisterClass")
-        }
-      }  
-
-    }
-    // s obj=$zObjClassMethod("%ZWebDesigner.Component.HTML.Button","GetJson")
-    // d htmlElements.children.%Push(obj)
-    
-    q htmlElements
-]]></Implementation>
-</Method>
-</Class>
-
-
 <Class name="%ZWebDesigner.Controll">
 <Super>%CSP.Page</Super>
 <TimeCreated>65234,66554.252917</TimeCreated>
@@ -7919,173 +8031,6 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
       w !,file.ReadLine() 
     } 	
    q
-]]></Implementation>
-</Method>
-</Class>
-
-
-<Class name="%ZWebDesigner.SourceControll">
-<ProcedureBlock>1</ProcedureBlock>
-<Super>%Studio.SourceControl.Base</Super>
-<TimeCreated>65233,51641.732928</TimeCreated>
-
-<XData name="Menu">
-<Data><![CDATA[
-<MenuBase>; 
-   <Menu Name="%SourceMenu" Type="0">
-    <MenuItem Name="%CheckIn" />
-   </Menu>
- 
-   <Menu Name="Tools" Type="0">
-     <!-- Меню для инсталяции --> 
-     <MenuItem Name="SourceControlAllNS"/>
-     <!--MenuItem Name="LoadClassCacheWebBuilder"/-->
-     <!--MenuItem Name="SetupWebDesignerClass"/-->
-   </Menu> 
-   
-   <Menu Name="WebBuilder" Type="1">
-     <MenuItem Name="cmWebDesigner"/>
-   </Menu>
-</MenuBase>
-]]></Data>
-</XData>
-
-<Method name="InstallSorceControllAllNameSpace">
-<Description>
-Установка Контроля версия на все области имен</Description>
-<ClassMethod>1</ClassMethod>
-<FormalSpec>SetNameSpace=""</FormalSpec>
-<Implementation><![CDATA[
-	if SetNameSpace'=""{
-	  w !,SetNameSpace_":"
-      w ##class(%Studio.SourceControl.Interface).SourceControlClassSet(##this,SetNameSpace)
-      w !,"OK"
-	  q	
-	}
-     For i=1:1:$ZU(90,0) Set nslist($ZU(90,2,0,i))=""
-     Set nameSpace=""
-     For {
-        Set nameSpace=$O(nslist(nameSpace))
-        Quit:nameSpace=""
-        CONTINUE:nameSpace="%CACHELIB"
-        w !,nameSpace_":"
-        w ##class(%Studio.SourceControl.Interface).SourceControlClassSet(##this,nameSpace)
-     }
-	 w !,"OK"
-]]></Implementation>
-</Method>
-
-<Method name="OnMenuItem">
-<FormalSpec><![CDATA[MenuName:%String,InternalName:%String,SelectedText:%String,&Enabled:%Boolean,&DisplayName:%String]]></FormalSpec>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
-    ; <!-- Эксперемент   -->
-    s LocalPathPlayer=^%SYS("bindir")_"mplayer.exe"
-    
-    if MenuName="Tools,SourceControlAllNS"{
-		Set DisplayName="Установить контроль версий на все NAMESPACE"
-		Set Enabled=1
-		quit $$$OK
-    }
-    	
-	
-	 if MenuName = "WebBuilder" {
-		set DisplayName = "Cache Web Builder"
-		Set Enabled=1
-		quit $$$OK
-	}
-	 
-	 
-	 
-    if MenuName="WebBuilder,cmWebDesigner"{ 
-       s DisplayName = "Designer"
-	   set Enabled =1
-       quit $$$OK
-    }
-  
-    if MenuName="Tools,LoadClassCacheWebBuilder"{ 
-		Set DisplayName="Load SMWrapClass from GitHub"
-		Set Enabled=1
-	    Quit $$$OK
-	}
-	if MenuName="Tools,SetupWebDesignerClass"{ 
-		Set DisplayName="Setup SMWrap server"
-		Set Enabled=1
-	    Quit $$$OK
-	}
-	
-    Quit $$$OK
-]]></Implementation>
-</Method>
-
-<Method name="UserAction">
-<FormalSpec><![CDATA[Type:%Integer,Name:%String,InternalName:%String,SelectedText:%String,&Action:%String,&Target:%String,&Msg:%String,&Reload:%Boolean]]></FormalSpec>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
-  set Port=57772
-  if $d(^%SYS("WebServer","Port")){
-     s Port=^%SYS("WebServer","Port")
-  }
-  s app=$System.CSP.GetDefaultApp($zu(5))
-  s bindir=^%SYS("bindir")
-  s ControllerClass="http://"_$zu(110)_":"_Port_$System.CSP.GetDefaultApp("%SYS")_"/"_$zcvt("%ZWebDesigner.Controller","O","URL")_".cls"
-  Set Action=0,Target="",Msg="",Reload=0
-  if (Type=0)&&(Name="WebBuilder,cmWebDesigner")
-  {
-	        // http://localhost:57772/csp/user/index.html
-	        // s ClassName=$e(InternalName,1,$l(InternalName)-4)
-            s ClassName=InternalName
-            s UserNameEncode=$System.Encryption.Base64Encode(..LoginUserName)
-            s UserPassEncode=$System.Encryption.Base64Encode(..LoginUserPass)
-            s URL="http://"_$zu(110)_":"_Port_"/csp/sys/WebDesigner/index.csp?namespace="_$zcvt($zu(5),"O","URL")_"&class="_$zcvt(ClassName,"O","URL")_"&controller="_ControllerClass
-	        s Action = 3
-	        ; Set Target="chrome.exe   -incognito   --new-window  --app="_URL
-	        ; Set Target="chrome.exe   --incognito   --new-window  --app="_URL
-	        Set Target="chrome.exe    --app="_URL
-	        w !,Target,!
-	      Quit $$$OK
-	}
-	
-	 
-	
-	if Name="Tools,SourceControlAllNS"
-	{
-       set Action = 0
-	   d ..InstallSorceControllAllNameSpace()	   
-	   Quit $$$OK
-	}
-	
-	
-	if Name="Tools,SetupWebDesignerClass"{ 
-            s ClassController="%ZWebDesigner.Utill.Config"
-            s URL=$System.CSP.GetDefaultApp("%SYS")_"/"_$zcvt(ClassController,"O","URL")_".cls?test=1"_"&InternalName="_$zcvt(InternalName,"O","URL")_"&Name="_$zcvt(Name,"O","URL")_"&author="_$zcvt($System.Encryption.Base64Encode(..LoginUserName_":"_..LoginUserPass),"O","URL")
-            // IE
-            Set Action=2
-		    Set Target=URL
-		    // chrome
-		    s Action = 3
-	        Set Target="start chrome.exe   -incognito   --new-window  --app="_URL
-	        Quit $$$OK
-	}
-	Quit $$$OK
-]]></Implementation>
-</Method>
-
-<Property name="LoginUserName">
-<Type>%String</Type>
-</Property>
-
-<Property name="LoginUserPass">
-<Type>%String</Type>
-</Property>
-
-<Method name="Login">
-<FormalSpec>login:%String="",password:%String=""</FormalSpec>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
-	s ..LoginUserName=login
-	s ..LoginUserPass =password
-	quit $$$OK
 ]]></Implementation>
 </Method>
 </Class>
@@ -8589,6 +8534,173 @@ d ##class(%ZWebDesigner.Component.HTML.Button).GetJson()</Description>
                   q:rashirenie="asm" "text/x-asm"
                   q:rashirenie="asp" "text/asp"
      q "application/octet-stream"
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="%ZWebDesigner.SourceControll">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Studio.SourceControl.Base</Super>
+<TimeCreated>65233,51641.732928</TimeCreated>
+
+<XData name="Menu">
+<Data><![CDATA[
+<MenuBase>; 
+   <Menu Name="%SourceMenu" Type="0">
+    <MenuItem Name="%CheckIn" />
+   </Menu>
+ 
+   <Menu Name="Tools" Type="0">
+     <!-- Меню для инсталяции --> 
+     <MenuItem Name="SourceControlAllNS"/>
+     <!--MenuItem Name="LoadClassCacheWebBuilder"/-->
+     <!--MenuItem Name="SetupWebDesignerClass"/-->
+   </Menu> 
+   
+   <Menu Name="WebBuilder" Type="1">
+     <MenuItem Name="cmWebDesigner"/>
+   </Menu>
+</MenuBase>
+]]></Data>
+</XData>
+
+<Method name="InstallSorceControllAllNameSpace">
+<Description>
+Установка Контроля версия на все области имен</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>SetNameSpace=""</FormalSpec>
+<Implementation><![CDATA[
+	if SetNameSpace'=""{
+	  w !,SetNameSpace_":"
+      w ##class(%Studio.SourceControl.Interface).SourceControlClassSet(##this,SetNameSpace)
+      w !,"OK"
+	  q	
+	}
+     For i=1:1:$ZU(90,0) Set nslist($ZU(90,2,0,i))=""
+     Set nameSpace=""
+     For {
+        Set nameSpace=$O(nslist(nameSpace))
+        Quit:nameSpace=""
+        CONTINUE:nameSpace="%CACHELIB"
+        w !,nameSpace_":"
+        w ##class(%Studio.SourceControl.Interface).SourceControlClassSet(##this,nameSpace)
+     }
+	 w !,"OK"
+]]></Implementation>
+</Method>
+
+<Method name="OnMenuItem">
+<FormalSpec><![CDATA[MenuName:%String,InternalName:%String,SelectedText:%String,&Enabled:%Boolean,&DisplayName:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    ; <!-- Эксперемент   -->
+    s LocalPathPlayer=^%SYS("bindir")_"mplayer.exe"
+    
+    if MenuName="Tools,SourceControlAllNS"{
+		Set DisplayName="Установить контроль версий на все NAMESPACE"
+		Set Enabled=1
+		quit $$$OK
+    }
+    	
+	
+	 if MenuName = "WebBuilder" {
+		set DisplayName = "Cache Web Builder"
+		Set Enabled=1
+		quit $$$OK
+	}
+	 
+	 
+	 
+    if MenuName="WebBuilder,cmWebDesigner"{ 
+       s DisplayName = "Designer"
+	   set Enabled =1
+       quit $$$OK
+    }
+  
+    if MenuName="Tools,LoadClassCacheWebBuilder"{ 
+		Set DisplayName="Load SMWrapClass from GitHub"
+		Set Enabled=1
+	    Quit $$$OK
+	}
+	if MenuName="Tools,SetupWebDesignerClass"{ 
+		Set DisplayName="Setup SMWrap server"
+		Set Enabled=1
+	    Quit $$$OK
+	}
+	
+    Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="UserAction">
+<FormalSpec><![CDATA[Type:%Integer,Name:%String,InternalName:%String,SelectedText:%String,&Action:%String,&Target:%String,&Msg:%String,&Reload:%Boolean]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+  set Port=57772
+  if $d(^%SYS("WebServer","Port")){
+     s Port=^%SYS("WebServer","Port")
+  }
+  s app=$System.CSP.GetDefaultApp($zu(5))
+  s bindir=^%SYS("bindir")
+  s ControllerClass="http://"_$zu(110)_":"_Port_$System.CSP.GetDefaultApp("%SYS")_"/"_$zcvt("%ZWebDesigner.Controller","O","URL")_".cls"
+  Set Action=0,Target="",Msg="",Reload=0
+  if (Type=0)&&(Name="WebBuilder,cmWebDesigner")
+  {
+	        // http://localhost:57772/csp/user/index.html
+	        // s ClassName=$e(InternalName,1,$l(InternalName)-4)
+            s ClassName=InternalName
+            s UserNameEncode=$System.Encryption.Base64Encode(..LoginUserName)
+            s UserPassEncode=$System.Encryption.Base64Encode(..LoginUserPass)
+            s URL="http://"_$zu(110)_":"_Port_"/csp/sys/WebDesigner/index.csp?namespace="_$zcvt($zu(5),"O","URL")_"&class="_$zcvt(ClassName,"O","URL")_"&controller="_ControllerClass
+	        s Action = 3
+	        ; Set Target="chrome.exe   -incognito   --new-window  --app="_URL
+	        ; Set Target="chrome.exe   --incognito   --new-window  --app="_URL
+	        Set Target="chrome.exe    --app="_URL
+	        w !,Target,!
+	      Quit $$$OK
+	}
+	
+	 
+	
+	if Name="Tools,SourceControlAllNS"
+	{
+       set Action = 0
+	   d ..InstallSorceControllAllNameSpace()	   
+	   Quit $$$OK
+	}
+	
+	
+	if Name="Tools,SetupWebDesignerClass"{ 
+            s ClassController="%ZWebDesigner.Utill.Config"
+            s URL=$System.CSP.GetDefaultApp("%SYS")_"/"_$zcvt(ClassController,"O","URL")_".cls?test=1"_"&InternalName="_$zcvt(InternalName,"O","URL")_"&Name="_$zcvt(Name,"O","URL")_"&author="_$zcvt($System.Encryption.Base64Encode(..LoginUserName_":"_..LoginUserPass),"O","URL")
+            // IE
+            Set Action=2
+		    Set Target=URL
+		    // chrome
+		    s Action = 3
+	        Set Target="start chrome.exe   -incognito   --new-window  --app="_URL
+	        Quit $$$OK
+	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Property name="LoginUserName">
+<Type>%String</Type>
+</Property>
+
+<Property name="LoginUserPass">
+<Type>%String</Type>
+</Property>
+
+<Method name="Login">
+<FormalSpec>login:%String="",password:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	s ..LoginUserName=login
+	s ..LoginUserPass =password
+	quit $$$OK
 ]]></Implementation>
 </Method>
 </Class>

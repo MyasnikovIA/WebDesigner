@@ -1,9 +1,10 @@
+
 <center><h1>WebDesigner</h1></center>
-Прокт WebDesigner является визуальным редактором для HTML страниц.
-<br>В разработке применялись компоненты:
+Proct WebDesigner is a visual editor for HTML pages.
+<br>The components used in the development:
 <br>   1) jqery
 <br>   2) jstree
 <br>   3) jquery-ui
 <br>   4) jqery.Layout
 <br>
-<br> Автор: Мясников Иван Александрович (Miacom@mail.ru)
+<br> Author: Myasnikov Ivan Alexandrovich (Miacom@mail.ru)
